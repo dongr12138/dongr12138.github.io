@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="rui">
+  <meta name="description" content="我不接受批评，你如果说我，我就骂你">
+  <meta name="generator" content="Hugo 0.58.3" />
+
+  <title> &middot; Maybe...</title>
+
+  <link rel="shortcut icon" href="https://dongr12138.github.io/images/favicon.ico">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/spectre.min.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/style.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/highlight.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+  
+
+  
+    <link href="" rel="alternate" type="application/rss+xml" title="Maybe..." />
+  
+
+  
+  <meta property="og:title" content="" />
+<meta property="og:description" content="1018-Springboot的配置 两个配置文件，都是用来修改配置的 1.application.properties server.port = 8081 # //SpringBoot配置文件  2.application.yml server: port: 8081 # //SpringBoot配置文件（新型） person: lastName: hello age: 19 boss: false birth: 2019/10/18 maps: {k1: v1,k2: 12} lists: - list - zhaoliu dog: name: 小狗 age: 2 # YAML语法： # 1.基本语法 # x:(空格)y: 表示一对键值对（空格必须有）; # 以【空格】的缩进来控制层级关系；只是是左对齐的一列数据，都是同一层次的 # # server: # port: 8081 # path: /hello (注意有空格) # # 属性和值也是大小写敏感； # # 2.值的写法 # 字面量：普通的值（数字，字符串，布尔） # k: v:字面直接来写； # 字符串默认不用加上单引用或者双引导； # # &quot;&quot;:双引号；不会转义字符串的特殊字符；特殊字符合作为本身想表示的意思 # name： &quot;zhangsan \n lisi&quot; : 输出 ; zhangsan 换行 lisi # # &#39;&#39;:单引号；会转义特殊字符，特殊字符最终只是一个普通的字符数据 # name: &#39;zhangsan \n lisi&#39; : 输出 ; zhangsan \n lisi # # 对象、Map（属性和值）（键值对） # k: v: # 对象还是k: v的方式 # friends: # lastName: zhangsan # age: 20 # # 行内写法: # friend: {lastName: zhangsan,age: 18} # # 数组（List、Set）: # 用-值表示数组中的一个元素 # pets: # -cat # -dog # -pig # # 行内写法 # pets: [cat,dog,pig]  Person." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dongr12138.github.io/post/1018/" />
+
+
+  
+  <meta itemprop="name" content="">
+<meta itemprop="description" content="1018-Springboot的配置 两个配置文件，都是用来修改配置的 1.application.properties server.port = 8081 # //SpringBoot配置文件  2.application.yml server: port: 8081 # //SpringBoot配置文件（新型） person: lastName: hello age: 19 boss: false birth: 2019/10/18 maps: {k1: v1,k2: 12} lists: - list - zhaoliu dog: name: 小狗 age: 2 # YAML语法： # 1.基本语法 # x:(空格)y: 表示一对键值对（空格必须有）; # 以【空格】的缩进来控制层级关系；只是是左对齐的一列数据，都是同一层次的 # # server: # port: 8081 # path: /hello (注意有空格) # # 属性和值也是大小写敏感； # # 2.值的写法 # 字面量：普通的值（数字，字符串，布尔） # k: v:字面直接来写； # 字符串默认不用加上单引用或者双引导； # # &quot;&quot;:双引号；不会转义字符串的特殊字符；特殊字符合作为本身想表示的意思 # name： &quot;zhangsan \n lisi&quot; : 输出 ; zhangsan 换行 lisi # # &#39;&#39;:单引号；会转义特殊字符，特殊字符最终只是一个普通的字符数据 # name: &#39;zhangsan \n lisi&#39; : 输出 ; zhangsan \n lisi # # 对象、Map（属性和值）（键值对） # k: v: # 对象还是k: v的方式 # friends: # lastName: zhangsan # age: 20 # # 行内写法: # friend: {lastName: zhangsan,age: 18} # # 数组（List、Set）: # 用-值表示数组中的一个元素 # pets: # -cat # -dog # -pig # # 行内写法 # pets: [cat,dog,pig]  Person.">
+
+
+
+<meta itemprop="wordCount" content="481">
+
+
+
+<meta itemprop="keywords" content="" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content=""/>
+<meta name="twitter:description" content="1018-Springboot的配置 两个配置文件，都是用来修改配置的 1.application.properties server.port = 8081 # //SpringBoot配置文件  2.application.yml server: port: 8081 # //SpringBoot配置文件（新型） person: lastName: hello age: 19 boss: false birth: 2019/10/18 maps: {k1: v1,k2: 12} lists: - list - zhaoliu dog: name: 小狗 age: 2 # YAML语法： # 1.基本语法 # x:(空格)y: 表示一对键值对（空格必须有）; # 以【空格】的缩进来控制层级关系；只是是左对齐的一列数据，都是同一层次的 # # server: # port: 8081 # path: /hello (注意有空格) # # 属性和值也是大小写敏感； # # 2.值的写法 # 字面量：普通的值（数字，字符串，布尔） # k: v:字面直接来写； # 字符串默认不用加上单引用或者双引导； # # &quot;&quot;:双引号；不会转义字符串的特殊字符；特殊字符合作为本身想表示的意思 # name： &quot;zhangsan \n lisi&quot; : 输出 ; zhangsan 换行 lisi # # &#39;&#39;:单引号；会转义特殊字符，特殊字符最终只是一个普通的字符数据 # name: &#39;zhangsan \n lisi&#39; : 输出 ; zhangsan \n lisi # # 对象、Map（属性和值）（键值对） # k: v: # 对象还是k: v的方式 # friends: # lastName: zhangsan # age: 20 # # 行内写法: # friend: {lastName: zhangsan,age: 18} # # 数组（List、Set）: # 用-值表示数组中的一个元素 # pets: # -cat # -dog # -pig # # 行内写法 # pets: [cat,dog,pig]  Person."/>
+
+</head>
+
+<body onload="setPixelFont()">
+  <div class="container p-fixed" style="z-index:3">
+  <nav class="navbar m-2 p-2 s-rounded shadow bg-primary">
+    <section class="navbar-section">
+      <button class="btn btn-action btn-primary s-circle text-gray" id="pixelfont-toggle"><i class="fas fa-robot fa-lg"></i></button>
+    </section>
+    <section class="navbar-section">
+      
+        <a class="btn btn-primary" href='https://dongr12138.github.io/'>Home</a>
+      
+
+      
+
+      
+      <a class="btn btn-accent" href="" target="_blank"><i class="fas fa-rss fa-lg"></i></a>
+      
+    </section>
+  </nav>
+</div>
+
+  <section class="container grid-md">
+  <div class="columns">
+    
+    
+<article class="container p-centered mt-space">
+  <header>
+    <h2 class="text-center"></h2>
+    <h6 class="text-gray text-italic"></h6>
+  </header>
+  <section class="my-gap">
+    
+
+<h1 id="1018-springboot的配置">1018-Springboot的配置</h1>
+
+<h4 id="两个配置文件-都是用来修改配置的">两个配置文件，都是用来修改配置的</h4>
+
+<h5 id="1-application-properties">1.application.properties</h5>
+
+<pre><code class="language-xml">server.port = 8081   
+#   //SpringBoot配置文件
+</code></pre>
+
+<h5 id="2-application-yml">2.application.yml</h5>
+
+<pre><code class="language-xml">server:
+  port: 8081
+#    //SpringBoot配置文件（新型）
+person:
+  lastName: hello
+  age: 19
+  boss: false
+  birth: 2019/10/18
+  maps: {k1: v1,k2: 12}
+  lists:
+    - list
+    - zhaoliu
+  dog:
+    name: 小狗
+    age: 2
+
+
+#  YAML语法：
+#  1.基本语法
+#    x:(空格)y: 表示一对键值对（空格必须有）;
+#    以【空格】的缩进来控制层级关系；只是是左对齐的一列数据，都是同一层次的
+#
+#    server:
+#      port: 8081
+#      path: /hello   (注意有空格)
+#
+#     属性和值也是大小写敏感；
+#
+#  2.值的写法
+#  字面量：普通的值（数字，字符串，布尔）
+#  k: v:字面直接来写；
+#        字符串默认不用加上单引用或者双引导；
+#
+#        &quot;&quot;:双引号；不会转义字符串的特殊字符；特殊字符合作为本身想表示的意思
+#            name： &quot;zhangsan \n lisi&quot; : 输出 ; zhangsan 换行 lisi
+#
+#        '':单引号；会转义特殊字符，特殊字符最终只是一个普通的字符数据
+#            name:  'zhangsan \n lisi' : 输出 ; zhangsan \n lisi
+#
+#  对象、Map（属性和值）（键值对）
+#        k: v:
+#             对象还是k: v的方式
+#             friends:
+#                     lastName: zhangsan
+#                     age: 20
+#
+#        行内写法:
+#             friend: {lastName: zhangsan,age: 18}
+#
+#  数组（List、Set）:
+#    用-值表示数组中的一个元素
+#    pets:
+#      -cat
+#      -dog
+#      -pig
+#
+#    行内写法
+#    pets: [cat,dog,pig]
+</code></pre>
+
+<h4 id="person-java">Person.java</h4>
+
+<pre><code class="language-java">package com.springboot.bean;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+import javax.xml.crypto.Data;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * rui 2019/10/18 - 18:49
+ *
+ * 将配置文件中配置的每一个属性的值，映射到这个组件中
+ * @ConfigurationProperties :告诉Springboot将本类中的所有属性和配置文件中相关的配置进行绑定；
+ * prefix = &quot;person&quot;,配置文件中哪个下面的所有属性进行一一映射
+ *
+ *只有这个组件是容器(Component)中的组件，才能容器提供的@ConfigurationProperties功能；
+ */
+@Component
+@ConfigurationProperties(prefix = &quot;person&quot;)
+public class Person {
+
+    private String lastName;
+    private Integer age;
+    private Boolean boss;
+    private Data birth;
+
+    private Map&lt;String,Object&gt; maps;
+    private List&lt;Object&gt; list;
+    private Dog dog;
+
+    @Override
+    public String toString() {
+        return &quot;Person{&quot; +
+                &quot;lastName='&quot; + lastName + '\'' +
+                &quot;, age=&quot; + age +
+                &quot;, boss=&quot; + boss +
+                &quot;, birth=&quot; + birth +
+                &quot;, list=&quot; + list +
+                &quot;, dog=&quot; + dog +
+                '}';
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Boolean getBoss() {
+        return boss;
+    }
+
+    public void setBoss(Boolean boss) {
+        this.boss = boss;
+    }
+
+    public Data getBirth() {
+        return birth;
+    }
+
+    public void setBirth(Data birth) {
+        this.birth = birth;
+    }
+
+    public List&lt;Object&gt; getList() {
+        return list;
+    }
+
+    public void setList(List&lt;Object&gt; list) {
+        this.list = list;
+    }
+
+    public Dog getDog() {
+        return dog;
+    }
+
+    public void setDog(Dog dog) {
+        this.dog = dog;
+    }
+}
+
+</code></pre>
+
+<h4 id="dog-java">Dog.java</h4>
+
+<pre><code class="language-java">package com.springboot.bean;
+
+/**
+ * rui 2019/10/18 - 19:55
+ */
+public class Dog {
+      private String name;
+      private Integer age;
+
+        @Override
+        public String toString() {
+            return &quot;Dog{&quot; +
+                    &quot;name='&quot; + name + '\'' +
+                    &quot;, age=&quot; + age +
+                    '}';
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getAge() {
+            return age;
+        }
+
+        public void setAge(Integer age) {
+            this.age = age;
+        }
+    }
+
+</code></pre>
+
+<h5 id="springboot1018configapplication-java">Springboot1018ConfigApplication.java</h5>
+
+<pre><code>package com.springboot.springboot1018config;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Springboot1018ConfigApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Springboot1018ConfigApplication.class, args);
+    }
+
+}
+</code></pre>
+
+<h5 id="springboot1018configapplicationtests-java">Springboot1018ConfigApplicationTests.java</h5>
+
+<pre><code class="language-java">package com.springboot.springboot1018config;
+
+import com.springboot.bean.Person;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+/**
+ * SpringBoot单元测试；
+ *
+ * 可以在测试期间很方便的类似编码一样进行自动注入等容器的功能
+ */
+@SpringBootTest
+class Springboot1018ConfigApplicationTests {
+
+    //将person注入
+    @Autowired
+    Person person;
+
+    @Test
+    void contextLoads() {
+        System.out.println(person);
+    }
+
+}
+</code></pre>
+
+<h5 id="pom-xml">pom.xml</h5>
+
+<pre><code class="language-xml">&lt;!--导入配置文件处理器，配置文件进行绑定就会有提示--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
+            &lt;optional&gt;true&lt;/optional&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.hamcrest&lt;/groupId&gt;
+            &lt;artifactId&gt;hamcrest-core&lt;/artifactId&gt;
+            &lt;version&gt;1.3&lt;/version&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+
+    
+  </section>
+  <div class="divider my-gap"></div>
+  <footer class="col-12 d-inline-block">
+    <span class="float-left">
+      <button class="btn btn-action btn-accent shadow s-circle" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
+    </span>
+    <span class="float-right">
+      <div class="text-right float-left mx-2">
+        <span class="text-dark">rui</span><br>
+        <span class="text-gray">大三程序员</span>
+      </div>
+      <figure class="avatar avatar-lg">
+        <img id="profile">
+      </figure>
+    </span>
+  </footer>
+</article>
+
+    <footer class="container p-centered text-center my-gap">
+  
+    <div class="container">
+
+  
+    <a class="symbol" href="mailto:dongr12138@gmail.com" target="_blank"><i class="fas fa-envelope"></i>
+  
+  </a>
+
+</div>
+
+  
+
+  <small class="text-gray">
+  
+    © Copyright 2019 rui
+  
+  </small>
+</footer>
+
+  </div>
+  </section>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://dongr12138.github.io/js/main.js"></script>
+<script src="https://dongr12138.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>

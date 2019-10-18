@@ -29,5 +29,14 @@
       <description>Hello 我是一个经不起批评的人，如果你批评我，我就骂你。</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://dongr12138.github.io/post/1018/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://dongr12138.github.io/post/1018/</guid>
+      <description>1018-Springboot的配置 两个配置文件，都是用来修改配置的 1.application.properties server.port = 8081 # //SpringBoot配置文件  2.application.yml server: port: 8081 # //SpringBoot配置文件（新型） person: lastName: hello age: 19 boss: false birth: 2019/10/18 maps: {k1: v1,k2: 12} lists: - list - zhaoliu dog: name: 小狗 age: 2 # YAML语法： # 1.基本语法 # x:(空格)y: 表示一对键值对（空格必须有）; # 以【空格】的缩进来控制层级关系；只是是左对齐的一列数据，都是同一层次的 # # server: # port: 8081 # path: /hello (注意有空格) # # 属性和值也是大小写敏感； # # 2.值的写法 # 字面量：普通的值（数字，字符串，布尔） # k: v:字面直接来写； # 字符串默认不用加上单引用或者双引导； # # &amp;quot;&amp;quot;:双引号；不会转义字符串的特殊字符；特殊字符合作为本身想表示的意思 # name： &amp;quot;zhangsan \n lisi&amp;quot; : 输出 ; zhangsan 换行 lisi # # &#39;&#39;:单引号；会转义特殊字符，特殊字符最终只是一个普通的字符数据 # name: &#39;zhangsan \n lisi&#39; : 输出 ; zhangsan \n lisi # # 对象、Map（属性和值）（键值对） # k: v: # 对象还是k: v的方式 # friends: # lastName: zhangsan # age: 20 # # 行内写法: # friend: {lastName: zhangsan,age: 18} # # 数组（List、Set）: # 用-值表示数组中的一个元素 # pets: # -cat # -dog # -pig # # 行内写法 # pets: [cat,dog,pig]  Person.</description>
+    </item>
+    
   </channel>
 </rss>
