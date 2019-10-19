@@ -17,7 +17,9 @@
       <pubDate>Sat, 19 Oct 2019 12:04:22 +0800</pubDate>
       
       <guid>https://dongr12138.github.io/post/1019/</guid>
-      <description>1.注解列表 @SpringBootApplication：
+      <description>*爱恋不过是一场高烧，思念是紧跟着的好不了的咳。 &amp;ndash;李宗盛《给自己的歌》*
+1.注解列表
+@SpringBootApplication：
 包含了@ ComponentScan，@ Configuration和@EnableAutoConfiguration注解。其中@ComponentScan让spring Boot扫描到Configuration类并把它加入到程序清单中。
 @Configuration等于于spring的XML配置文件；使用Java代码可以检查类型安全。
 @EnableAutoConfiguration自动配置。
