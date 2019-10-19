@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="rui">
+  <meta name="description" content="我不接受批评，你如果说我，我就骂你">
+  <meta name="generator" content="Hugo 0.58.3" />
+
+  <title>1019-Spring常用注解 &middot; Maybe...</title>
+
+  <link rel="shortcut icon" href="https://dongr12138.github.io/images/favicon.ico">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/spectre.min.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/style.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/highlight.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+  
+
+  
+    <link href="" rel="alternate" type="application/rss+xml" title="Maybe..." />
+  
+
+  
+  <meta property="og:title" content="1019-Spring常用注解" />
+<meta property="og:description" content="1.注解列表 @SpringBootApplication：
+包含了@ ComponentScan，@ Configuration和@EnableAutoConfiguration注解。其中@ComponentScan让spring Boot扫描到Configuration类并把它加入到程序清单中。
+@Configuration等于于spring的XML配置文件；使用Java代码可以检查类型安全。
+@EnableAutoConfiguration自动配置。
+@ComponentScan组件扫描，可自动发现和装配一些Bean。
+@Component可配合CommandLineRunner使用，在程序启动后执行一些基础任务。
+@RestController注解是@Controller和@ResponseBody的合集，表示这是一个控制器bean，并且是将函数的返回值直接填充到HTTP响应体中，是REST风格的控制器。
+@Autowired自动导入。
+@PathVariable获取参数。
+@JsonBackReference解决嵌套外链问题。
+@RepositoryRestResourcepublic配合spring-boot-starter-data-rest使用。
+2.注解详解 @SpringBootApplication：申明让spring boot自动给程序进行必要的配置，这个配置等效于：@Configuration，@ EnableAutoConfiguration和@ComponentScan三个配置。
+package com.example.myproject; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; @SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan public class Application { public static void main(String[] args) { SpringApplication.run(Application.class, args); } }  @ResponseBody：表示该方法的返回结果直接写入HTTP响应正文，一般在异步获取数据时使用，用于生成RESTful的api。在使用@RequestMapping后，返回值通常解析为替换路径，加上@ responsebody后返回结果不会被解析为转换路径，而是直接写入HTTP响应正文。。垂直获取json数据，加上@responsebody后，会直接返回json数据。该注解一般会配合@RequestMapping一起使用。示例代码：
+@RequestMapping(“/test”) @ResponseBody public String test(){ return”ok”; }  @Controller：用于定义控制器类，在spring项目中由控制器负责将用户发来的URL请求转发到对应的服务接口（服务层），一般这个注解在类中，通常方法需要配合注解@RequestMapping 。示例代码：
+@Controller @RequestMapping(“/demoInfo”) publicclass DemoController { @Autowired private DemoInfoService demoInfoService; @RequestMapping(&quot;/hello&quot;) public String hello(Map&lt;String,Object&gt; map){ System." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dongr12138.github.io/post/1019/" />
+<meta property="article:published_time" content="2019-10-19T12:04:22+08:00" />
+<meta property="article:modified_time" content="2019-10-19T12:04:22+08:00" />
+
+  
+  <meta itemprop="name" content="1019-Spring常用注解">
+<meta itemprop="description" content="1.注解列表 @SpringBootApplication：
+包含了@ ComponentScan，@ Configuration和@EnableAutoConfiguration注解。其中@ComponentScan让spring Boot扫描到Configuration类并把它加入到程序清单中。
+@Configuration等于于spring的XML配置文件；使用Java代码可以检查类型安全。
+@EnableAutoConfiguration自动配置。
+@ComponentScan组件扫描，可自动发现和装配一些Bean。
+@Component可配合CommandLineRunner使用，在程序启动后执行一些基础任务。
+@RestController注解是@Controller和@ResponseBody的合集，表示这是一个控制器bean，并且是将函数的返回值直接填充到HTTP响应体中，是REST风格的控制器。
+@Autowired自动导入。
+@PathVariable获取参数。
+@JsonBackReference解决嵌套外链问题。
+@RepositoryRestResourcepublic配合spring-boot-starter-data-rest使用。
+2.注解详解 @SpringBootApplication：申明让spring boot自动给程序进行必要的配置，这个配置等效于：@Configuration，@ EnableAutoConfiguration和@ComponentScan三个配置。
+package com.example.myproject; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; @SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan public class Application { public static void main(String[] args) { SpringApplication.run(Application.class, args); } }  @ResponseBody：表示该方法的返回结果直接写入HTTP响应正文，一般在异步获取数据时使用，用于生成RESTful的api。在使用@RequestMapping后，返回值通常解析为替换路径，加上@ responsebody后返回结果不会被解析为转换路径，而是直接写入HTTP响应正文。。垂直获取json数据，加上@responsebody后，会直接返回json数据。该注解一般会配合@RequestMapping一起使用。示例代码：
+@RequestMapping(“/test”) @ResponseBody public String test(){ return”ok”; }  @Controller：用于定义控制器类，在spring项目中由控制器负责将用户发来的URL请求转发到对应的服务接口（服务层），一般这个注解在类中，通常方法需要配合注解@RequestMapping 。示例代码：
+@Controller @RequestMapping(“/demoInfo”) publicclass DemoController { @Autowired private DemoInfoService demoInfoService; @RequestMapping(&quot;/hello&quot;) public String hello(Map&lt;String,Object&gt; map){ System.">
+
+
+<meta itemprop="datePublished" content="2019-10-19T12:04:22&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-19T12:04:22&#43;08:00" />
+<meta itemprop="wordCount" content="217">
+
+
+
+<meta itemprop="keywords" content="" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="1019-Spring常用注解"/>
+<meta name="twitter:description" content="1.注解列表 @SpringBootApplication：
+包含了@ ComponentScan，@ Configuration和@EnableAutoConfiguration注解。其中@ComponentScan让spring Boot扫描到Configuration类并把它加入到程序清单中。
+@Configuration等于于spring的XML配置文件；使用Java代码可以检查类型安全。
+@EnableAutoConfiguration自动配置。
+@ComponentScan组件扫描，可自动发现和装配一些Bean。
+@Component可配合CommandLineRunner使用，在程序启动后执行一些基础任务。
+@RestController注解是@Controller和@ResponseBody的合集，表示这是一个控制器bean，并且是将函数的返回值直接填充到HTTP响应体中，是REST风格的控制器。
+@Autowired自动导入。
+@PathVariable获取参数。
+@JsonBackReference解决嵌套外链问题。
+@RepositoryRestResourcepublic配合spring-boot-starter-data-rest使用。
+2.注解详解 @SpringBootApplication：申明让spring boot自动给程序进行必要的配置，这个配置等效于：@Configuration，@ EnableAutoConfiguration和@ComponentScan三个配置。
+package com.example.myproject; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; @SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan public class Application { public static void main(String[] args) { SpringApplication.run(Application.class, args); } }  @ResponseBody：表示该方法的返回结果直接写入HTTP响应正文，一般在异步获取数据时使用，用于生成RESTful的api。在使用@RequestMapping后，返回值通常解析为替换路径，加上@ responsebody后返回结果不会被解析为转换路径，而是直接写入HTTP响应正文。。垂直获取json数据，加上@responsebody后，会直接返回json数据。该注解一般会配合@RequestMapping一起使用。示例代码：
+@RequestMapping(“/test”) @ResponseBody public String test(){ return”ok”; }  @Controller：用于定义控制器类，在spring项目中由控制器负责将用户发来的URL请求转发到对应的服务接口（服务层），一般这个注解在类中，通常方法需要配合注解@RequestMapping 。示例代码：
+@Controller @RequestMapping(“/demoInfo”) publicclass DemoController { @Autowired private DemoInfoService demoInfoService; @RequestMapping(&quot;/hello&quot;) public String hello(Map&lt;String,Object&gt; map){ System."/>
+
+</head>
+
+<body onload="setPixelFont()">
+  <div class="container p-fixed" style="z-index:3">
+  <nav class="navbar m-2 p-2 s-rounded shadow bg-primary">
+    <section class="navbar-section">
+      <button class="btn btn-action btn-primary s-circle text-gray" id="pixelfont-toggle"><i class="fas fa-robot fa-lg"></i></button>
+    </section>
+    <section class="navbar-section">
+      
+        <a class="btn btn-primary" href='https://dongr12138.github.io/'>Home</a>
+      
+
+      
+
+      
+      <a class="btn btn-accent" href="" target="_blank"><i class="fas fa-rss fa-lg"></i></a>
+      
+    </section>
+  </nav>
+</div>
+
+  <section class="container grid-md">
+  <div class="columns">
+    
+    
+<article class="container p-centered mt-space">
+  <header>
+    <h2 class="text-center">1019-Spring常用注解</h2>
+    <h6 class="text-gray text-italic"></h6>
+  </header>
+  <section class="my-gap">
+    
+
+<h3 id="1-注解列表">1.注解列表</h3>
+
+<p>@SpringBootApplication：</p>
+
+<p>包含了@ ComponentScan，@ Configuration和@EnableAutoConfiguration注解。其中@ComponentScan让spring Boot扫描到Configuration类并把它加入到程序清单中。</p>
+
+<p>@Configuration等于于spring的XML配置文件；使用Java代码可以检查类型安全。</p>
+
+<p>@EnableAutoConfiguration自动配置。</p>
+
+<p>@ComponentScan组件扫描，可自动发现和装配一些Bean。</p>
+
+<p>@Component可配合CommandLineRunner使用，在程序启动后执行一些基础任务。</p>
+
+<p>@RestController注解是@Controller和@ResponseBody的合集，表示这是一个控制器bean，并且是将函数的返回值直接填充到HTTP响应体中，是REST风格的控制器。</p>
+
+<p>@Autowired自动导入。</p>
+
+<p>@PathVariable获取参数。</p>
+
+<p>@JsonBackReference解决嵌套外链问题。</p>
+
+<p>@RepositoryRestResourcepublic配合spring-boot-starter-data-rest使用。</p>
+
+<h3 id="2-注解详解">2.注解详解</h3>
+
+<p>@SpringBootApplication：申明让spring boot自动给程序进行必要的配置，这个配置等效于：@Configuration，@ EnableAutoConfiguration和@ComponentScan三个配置。</p>
+
+<pre><code class="language-java">package com.example.myproject; 
+import org.springframework.boot.SpringApplication; 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan 
+public class Application { 
+public static void main(String[] args) { 
+SpringApplication.run(Application.class, args); 
+} 
+}
+</code></pre>
+
+<p>@ResponseBody：表示该方法的返回结果直接写入HTTP响应正文，一般在异步获取数据时使用，用于生成RESTful的api。在使用@RequestMapping后，返回值通常解析为替换路径，加上@ responsebody后返回结果不会被解析为转换路径，而是直接写入HTTP响应正文。。垂直获取json数据，加上@responsebody后，会直接返回json数据。该注解一般会配合@RequestMapping一起使用。示例代码：</p>
+
+<pre><code class="language-java">@RequestMapping(“/test”) 
+@ResponseBody 
+public String test(){ 
+return”ok”; 
+}
+</code></pre>
+
+<p>@Controller：用于定义控制器类，在spring项目中由控制器负责将用户发来的URL请求转发到对应的服务接口（服务层），一般这个注解在类中，通常方法需要配合注解@RequestMapping 。示例代码：</p>
+
+<pre><code class="language-java">@Controller 
+@RequestMapping(“/demoInfo”) 
+publicclass DemoController { 
+@Autowired 
+private DemoInfoService demoInfoService;
+
+@RequestMapping(&quot;/hello&quot;)
+public String hello(Map&lt;String,Object&gt; map){
+   System.out.println(&quot;DemoController.hello()&quot;);
+   map.put(&quot;hello&quot;,&quot;from TemplateController.helloHtml&quot;);
+   //会使用hello.html或者hello.ftl模板进行渲染显示.
+   return&quot;/hello&quot;;
+}
+}
+</code></pre>
+
+<p>@RestController：用于标注控制层组件（如struts中的action），@ ResponseBody和@Controller的合集</p>
+
+<pre><code class="language-java">package com.kfit.demo.web;
+
+import org.springframework.web.bind.annotation.RequestMapping; 
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController 
+@RequestMapping(“/demoInfo2”) 
+publicclass DemoController2 {
+
+@RequestMapping(&quot;/test&quot;)
+public String test(){
+   return&quot;ok&quot;;
+}
+}
+</code></pre>
+
+<p>@RequestMapping：提供路由信息，负责URL到Controller中的具体函数的映射。</p>
+
+<p>@EnableAutoConfiguration：Spring Boot自动配置（自动配置）：尝试根据您添加的jar依赖自动配置自己的Spring应用。例如，如果您的类路径下存在HSQLDB，并且您没有手动配置任何数据库连接bean，那么我们将自动配置一个内存类型（内存）数据库”。</p>
+
+<p>您可以将@EnableAutoConfiguration或@SpringBootApplication注解添加到一个@Configuration类上来选择自动配置。如果发现应用了</p>
+
+<p>@ComponentScan：表示称为类自动发现扫描组件。个人理解相当于，如果扫描到有@ Component，@ Controller，@ Service等这些注解的类，并注册为Bean，可以自动收集所有的Spring组件，包括@配置类。我们经常使用@ComponentScan注解搜索bean，并结合@Autowired注解导入。可以自动收集所有的Spring组件，包括@Configuration类。</p>
+
+<p>如果没有配置的话，Spring Boot会扫描启动类所在的包下以及子包下的使用了@ Service，@ Repository等注解的类。我们经常使用@ComponentScan注解搜索beans，并结合@Autowired注解引入。</p>
+
+<p>@Configuration：相当于传统的xml配置文件，如果有些第三方库需要用到xml文件，建议仍然通过@Configuration类作为项目的配置主类-可以使用@ImportResource注解加载XML配置文件。</p>
+
+<p>@Import：用于引入其他配置类。</p>
+
+<p>@ImportResource：用来加载xml配置文件。</p>
+
+<p>@Autowired：自动导入依赖的bean</p>
+
+<p>@Service：一般用于修饰服务层的组件</p>
+
+<p>@Repository：使用@Repository注解可以确保DAO或repositories提供异常转译，这个注解修饰的DAO或者repositories类会被ComponetScan发现并配置，同时也不需要为它们提供XML配置项。</p>
+
+<p>@Bean：用@Bean标注方法等价于XML中配置的bean。</p>
+
+<p>@Value：注入Spring Boot application.properties配置的属性的值。示例代码：</p>
+
+<pre><code class="language-java">@Value(value = “#{message}”) 
+private String message;
+</code></pre>
+
+<p>@Inject：等价于预设的@Autowired，只是没有必填属性；</p>
+
+<p>@Component：泛指组件，当组件不好归类的时候，我们可以使用这个注解进行标注。</p>
+
+<p>@Bean：相当于XML中的，放在方法的上面，而不是类，意思是产生一个bean，并交给spring管理。</p>
+
+<p>@AutoWired：自动导入依赖的bean。byType方式。把配置好的bean拿来用，完成属性，方法的组装，它可以对类成员变量，方法及构造函数进行标注，完成自动装配的工作。当加上（required = false）时，就算发现bean也不报错。</p>
+
+<p>@Qualifier：当有多个相同类型的Bean时，可以用@Qualifier（“名称”）来指定。与@Autowired配合使用。@ Qualifier定义为除了能根据名字进行注入，但能进行更细粒度的控制如何选择预设者，具体使用方式如下：</p>
+
+<pre><code class="language-java">@Autowired 
+@Qualifier(value = “demoInfoService”) 
+private DemoInfoService demoInfoService;
+</code></pre>
+
+<p>@Resource（name =“ name”，type =“ type”）：没有括号内内容的话，可以按名称。与@Autowired干类似的事。</p>
+
+<h3 id="3-jpa注解">3.JPA注解</h3>
+
+<p>@Entity：@Table（name =”“）：表明这是一个实体类。一般使用jpa这两个注解一般一块使用，但是如果表名和实体类名相同的话，@ Table可以省略</p>
+
+<p>@MappedSuperClass：用在确定是父类的实体上。父类的属性子类可以继承。</p>
+
+<p>@NoRepositoryBean：一般利用父类的存储库，有这个注解，spring不会去实例化该存储库。</p>
+
+<p>@Column：如果基线名与列名相同，则可以省略。</p>
+
+<p>@Id：表示该属性主要键。</p>
+
+<p>@GeneratedValue（strategy = GenerationType.SEQUENCE，generator =“ repair_seq”）：表示主键生成策略是序列（可以为Auto，IDENTITY，native等，自动表示可在多个数据库间切换），指定sequence的名字是repair_seq。</p>
+
+<p>@SequenceGeneretor（name =“ repair_seq”，sequenceName =“ seq_repair”，allocationSize = 1）：名称为序列的名称，名称使用，sequenceName为数据库的序列名称，两个名称可以一致。</p>
+
+<p>@Transient：表示该属性并非一个到数据库表的分区的映射，ORM框架将忽略该属性。如果一个属性非数据库表的转换映射，则将其指示为@Transient，否则，ORM框架为其注解为@ Basic。@ Basic（fetch = FetchType.LAZY）：标记可以指定实体属性的加载方式</p>
+
+<p>@JsonIgnore：作用是json序列化时将Java JavaBean中的一些属性忽略掉，序列化和反序列化都受到干扰。</p>
+
+<p>@JoinColumn（name =“ loginId”）：一对一：本表中指向另一个表的外键。一对多：另一个表指向本表的外键。</p>
+
+<p>@ OneToOne，@ OneToMany，@ ManyToOne：对应的休眠配置文件中的一对一，一对多，多对一。</p>
+
+<h3 id="4-springmvc相关注解">4.SpringMVC相关注解</h3>
+
+<p>@RequestMapping：@RequestMapping（“ / path”）表示该控制器处理所有“ / path”的UR请求。RequestMapping是一个已处理请求地址映射的注解，可用于类或方法上。</p>
+
+<p>用于类上，表示类中的所有响应请求的方法都是以该地址为父路径。</p>
+
+<p><strong>该注解有六个属性：</strong></p>
+
+<ol>
+<li>params：指定请求中必须包含某些参数值是，才让该方法处理。</li>
+<li>标头：指定请求中必须包含某些指定的标头值，才能使该方法处理请求。</li>
+<li>值：指定请求的实际地址，指定的地址可以是URI模板模式</li>
+<li>方法：指定请求的方法类型，GET，POST，PUT，DELETE等</li>
+<li>消耗：指定处理请求的提交内容类型（Content-Type），如application / json，text / html;</li>
+<li>产生：指定返回的内容类型，仅当request请求头中的（接受）类型中包含该指定类型才返回</li>
+</ol>
+
+<p>@RequestParam：用在方法的参数前面。</p>
+
+<pre><code class="language-java">@RequestParam 
+String a =request.getParameter(“a”)。
+</code></pre>
+
+<p>@PathVariable：路径变量。如</p>
+
+<pre><code class="language-java">RequestMapping(“user/get/mac/{macAddress}”) 
+public String getByMacAddress(@PathVariable String macAddress){ 
+//do something; 
+} 
+</code></pre>
+
+<p>参数与大括号里的名字一样要相同。</p>
+
+<h3 id="5-总体异常处理">5.总体异常处理</h3>
+
+<p>@ControllerAdvice：包含@Component。可以被扫描到。统一处理异常。</p>
+
+<p>@ExceptionHandler（Exception.class）：用在方法上面表示遇到这个异常就执行以下方法。</p>
+
+
+    
+  </section>
+  <div class="divider my-gap"></div>
+  <footer class="col-12 d-inline-block">
+    <span class="float-left">
+      <button class="btn btn-action btn-accent shadow s-circle" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
+    </span>
+    <span class="float-right">
+      <div class="text-right float-left mx-2">
+        <span class="text-dark">rui</span><br>
+        <span class="text-gray">大三程序员</span>
+      </div>
+      <figure class="avatar avatar-lg">
+        <img id="profile">
+      </figure>
+    </span>
+  </footer>
+</article>
+
+    <footer class="container p-centered text-center my-gap">
+  
+    <div class="container">
+
+  
+    <a class="symbol" href="mailto:dongr12138@gmail.com" target="_blank"><i class="fas fa-envelope"></i>
+  
+  </a>
+
+</div>
+
+  
+
+  <small class="text-gray">
+  
+    © Copyright 2019 rui
+  
+  </small>
+</footer>
+
+  </div>
+  </section>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://dongr12138.github.io/js/main.js"></script>
+<script src="https://dongr12138.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>

@@ -6,10 +6,33 @@
     <description>Recent content in Posts on Maybe...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 Oct 2019 22:14:27 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 19 Oct 2019 12:04:22 +0800</lastBuildDate>
     
 	<atom:link href="https://dongr12138.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>1019-Spring常用注解</title>
+      <link>https://dongr12138.github.io/post/1019/</link>
+      <pubDate>Sat, 19 Oct 2019 12:04:22 +0800</pubDate>
+      
+      <guid>https://dongr12138.github.io/post/1019/</guid>
+      <description>1.注解列表 @SpringBootApplication：
+包含了@ ComponentScan，@ Configuration和@EnableAutoConfiguration注解。其中@ComponentScan让spring Boot扫描到Configuration类并把它加入到程序清单中。
+@Configuration等于于spring的XML配置文件；使用Java代码可以检查类型安全。
+@EnableAutoConfiguration自动配置。
+@ComponentScan组件扫描，可自动发现和装配一些Bean。
+@Component可配合CommandLineRunner使用，在程序启动后执行一些基础任务。
+@RestController注解是@Controller和@ResponseBody的合集，表示这是一个控制器bean，并且是将函数的返回值直接填充到HTTP响应体中，是REST风格的控制器。
+@Autowired自动导入。
+@PathVariable获取参数。
+@JsonBackReference解决嵌套外链问题。
+@RepositoryRestResourcepublic配合spring-boot-starter-data-rest使用。
+2.注解详解 @SpringBootApplication：申明让spring boot自动给程序进行必要的配置，这个配置等效于：@Configuration，@ EnableAutoConfiguration和@ComponentScan三个配置。
+package com.example.myproject; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; @SpringBootApplication // same as @Configuration @EnableAutoConfiguration @ComponentScan public class Application { public static void main(String[] args) { SpringApplication.run(Application.class, args); } }  @ResponseBody：表示该方法的返回结果直接写入HTTP响应正文，一般在异步获取数据时使用，用于生成RESTful的api。在使用@RequestMapping后，返回值通常解析为替换路径，加上@ responsebody后返回结果不会被解析为转换路径，而是直接写入HTTP响应正文。。垂直获取json数据，加上@responsebody后，会直接返回json数据。该注解一般会配合@RequestMapping一起使用。示例代码：
+@RequestMapping(“/test”) @ResponseBody public String test(){ return”ok”; }  @Controller：用于定义控制器类，在spring项目中由控制器负责将用户发来的URL请求转发到对应的服务接口（服务层），一般这个注解在类中，通常方法需要配合注解@RequestMapping 。示例代码：
+@Controller @RequestMapping(“/demoInfo”) publicclass DemoController { @Autowired private DemoInfoService demoInfoService; @RequestMapping(&amp;quot;/hello&amp;quot;) public String hello(Map&amp;lt;String,Object&amp;gt; map){ System.</description>
+    </item>
     
     <item>
       <title>1018-Springboot的配置</title>
