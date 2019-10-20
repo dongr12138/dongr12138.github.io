@@ -6,10 +6,40 @@
     <description>Recent content on Maybe...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Oct 2019 12:04:22 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 20 Oct 2019 20:15:13 +0800</lastBuildDate>
     
 	<atom:link href="https://dongr12138.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>1020-Springboot入门</title>
+      <link>https://dongr12138.github.io/post/1020/</link>
+      <pubDate>Sun, 20 Oct 2019 20:15:13 +0800</pubDate>
+      
+      <guid>https://dongr12138.github.io/post/1020/</guid>
+      <description>该怎么去形容你最贴切，拿什么跟你比较才算特别。 &amp;ndash;蔡健雅《红色高跟鞋》 01：22
+一、Spring Boot 入门 1、Spring Boot 简介  简化Spring应用开发的一个框架；
+整个Spring技术栈的一个大整合；
+J2EE开发的一站式解决方案；
+ 2、微服务 2014，martin fowler
+微服务：架构风格（服务微化）
+一个应用应该是一组小型服务；可以通过HTTP的方式进行互通；
+单体应用：ALL IN ONE
+微服务：每一个功能元素最终都是一个可独立替换和独立升级的软件单元；
+详细参照微服务文档
+3、环境准备 http://www.gulixueyuan.com/ 谷粒学院
+环境约束
+–jdk1.8：Spring Boot 推荐jdk1.7及以上；java version &amp;ldquo;1.8.0_112&amp;rdquo;
+–maven3.x：maven 3.3以上版本；Apache Maven 3.3.9
+–IntelliJIDEA2017：IntelliJ IDEA 2017.2.2 x64、STS
+–SpringBoot 1.5.9.RELEASE：1.5.9；
+统一环境；
+1、MAVEN设置； 给maven 的settings.xml配置文件的profiles标签添加
+&amp;lt;profile&amp;gt; &amp;lt;id&amp;gt;jdk-1.8&amp;lt;/id&amp;gt; &amp;lt;activation&amp;gt; &amp;lt;activeByDefault&amp;gt;true&amp;lt;/activeByDefault&amp;gt; &amp;lt;jdk&amp;gt;1.8&amp;lt;/jdk&amp;gt; &amp;lt;/activation&amp;gt; &amp;lt;properties&amp;gt; &amp;lt;maven.compiler.source&amp;gt;1.8&amp;lt;/maven.compiler.source&amp;gt; &amp;lt;maven.compiler.target&amp;gt;1.8&amp;lt;/maven.compiler.target&amp;gt; &amp;lt;maven.compiler.compilerVersion&amp;gt;1.8&amp;lt;/maven.compiler.compilerVersion&amp;gt; &amp;lt;/properties&amp;gt; &amp;lt;/profile&amp;gt;  2、IDEA设置 整合maven进来；
+4、Spring Boot HelloWorld 一个功能：
+浏览器发送hello请求，服务器接受请求并处理，响应Hello World字符串；
+1、创建一个maven工程；（jar） 2、导入spring boot相关的依赖 &amp;lt;parent&amp;gt; &amp;lt;groupId&amp;gt;org.</description>
+    </item>
     
     <item>
       <title>1019-Spring常用注解</title>
@@ -17,7 +47,7 @@
       <pubDate>Sat, 19 Oct 2019 12:04:22 +0800</pubDate>
       
       <guid>https://dongr12138.github.io/post/1019/</guid>
-      <description>*爱恋不过是一场高烧，思念是紧跟着的好不了的咳。 &amp;ndash;李宗盛《给自己的歌》*
+      <description>爱恋不过是一场高烧，思念是紧跟着的好不了的咳。 &amp;ndash;李宗盛《给自己的歌》 01：02
 1.注解列表
 @SpringBootApplication：
 包含了@ ComponentScan，@ Configuration和@EnableAutoConfiguration注解。其中@ComponentScan让spring Boot扫描到Configuration类并把它加入到程序清单中。
