@@ -25,7 +25,7 @@
 
   
   <meta property="og:title" content="1021-springboot整合websocket实现一对一消息推送和广播消息推送" />
-<meta property="og:description" content="Who wrote the book on goodbye? &mdash;-Lauv 00:32
+<meta property="og:description" content="Who wrote the book on goodbye? &mdash;-Lauv《The Other》 00:32
 springboot基础环境 Maven依赖 &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt; &lt;/dependency&gt;  代码准备 准备常量类 //webSocket相关配置 //链接地址 public static String WEBSOCKETPATHPERFIX = &quot;/ws-push&quot;; public static String WEBSOCKETPATH = &quot;/endpointWisely&quot;; //消息代理路径 public static String WEBSOCKETBROADCASTPATH = &quot;/topic&quot;; //前端发送给服务端请求地址 public static final String FORETOSERVERPATH = &quot;/welcome&quot;; //服务端生产地址,客户端订阅此地址以接收服务端生产的消息 public static final String PRODUCERPATH = &quot;/topic/getResponse&quot;; //点对点消息推送地址前缀 public static final String P2PPUSHBASEPATH = &quot;/user&quot;; //点对点消息推送地址后缀,最后的地址为/user/用户识别码/msg public static final String P2PPUSHPATH = &quot;/msg&quot;;  接收前端消息实体 public class WiselyMessage { private String name; public String getName() { return name; } public void setName(String name) { this." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://dongr12138.github.io/post/1021/" />
@@ -34,13 +34,13 @@ springboot基础环境 Maven依赖 &lt;dependency&gt; &lt;groupId&gt;org.springf
 
   
   <meta itemprop="name" content="1021-springboot整合websocket实现一对一消息推送和广播消息推送">
-<meta itemprop="description" content="Who wrote the book on goodbye? &mdash;-Lauv 00:32
+<meta itemprop="description" content="Who wrote the book on goodbye? &mdash;-Lauv《The Other》 00:32
 springboot基础环境 Maven依赖 &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt; &lt;/dependency&gt;  代码准备 准备常量类 //webSocket相关配置 //链接地址 public static String WEBSOCKETPATHPERFIX = &quot;/ws-push&quot;; public static String WEBSOCKETPATH = &quot;/endpointWisely&quot;; //消息代理路径 public static String WEBSOCKETBROADCASTPATH = &quot;/topic&quot;; //前端发送给服务端请求地址 public static final String FORETOSERVERPATH = &quot;/welcome&quot;; //服务端生产地址,客户端订阅此地址以接收服务端生产的消息 public static final String PRODUCERPATH = &quot;/topic/getResponse&quot;; //点对点消息推送地址前缀 public static final String P2PPUSHBASEPATH = &quot;/user&quot;; //点对点消息推送地址后缀,最后的地址为/user/用户识别码/msg public static final String P2PPUSHPATH = &quot;/msg&quot;;  接收前端消息实体 public class WiselyMessage { private String name; public String getName() { return name; } public void setName(String name) { this.">
 
 
 <meta itemprop="datePublished" content="2019-10-21T21:35:06&#43;08:00" />
 <meta itemprop="dateModified" content="2019-10-21T21:35:06&#43;08:00" />
-<meta itemprop="wordCount" content="422">
+<meta itemprop="wordCount" content="423">
 
 
 
@@ -48,7 +48,7 @@ springboot基础环境 Maven依赖 &lt;dependency&gt; &lt;groupId&gt;org.springf
 
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="1021-springboot整合websocket实现一对一消息推送和广播消息推送"/>
-<meta name="twitter:description" content="Who wrote the book on goodbye? &mdash;-Lauv 00:32
+<meta name="twitter:description" content="Who wrote the book on goodbye? &mdash;-Lauv《The Other》 00:32
 springboot基础环境 Maven依赖 &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt; &lt;/dependency&gt;  代码准备 准备常量类 //webSocket相关配置 //链接地址 public static String WEBSOCKETPATHPERFIX = &quot;/ws-push&quot;; public static String WEBSOCKETPATH = &quot;/endpointWisely&quot;; //消息代理路径 public static String WEBSOCKETBROADCASTPATH = &quot;/topic&quot;; //前端发送给服务端请求地址 public static final String FORETOSERVERPATH = &quot;/welcome&quot;; //服务端生产地址,客户端订阅此地址以接收服务端生产的消息 public static final String PRODUCERPATH = &quot;/topic/getResponse&quot;; //点对点消息推送地址前缀 public static final String P2PPUSHBASEPATH = &quot;/user&quot;; //点对点消息推送地址后缀,最后的地址为/user/用户识别码/msg public static final String P2PPUSHPATH = &quot;/msg&quot;;  接收前端消息实体 public class WiselyMessage { private String name; public String getName() { return name; } public void setName(String name) { this."/>
 
 </head>
@@ -85,7 +85,7 @@ springboot基础环境 Maven依赖 &lt;dependency&gt; &lt;groupId&gt;org.springf
   <section class="my-gap">
     
 
-<p><em><u>Who wrote the book on goodbye?          &mdash;-Lauv<The Other></u></em>   00:32</p>
+<p><em><u>Who wrote the book on goodbye?          &mdash;-Lauv《The Other》</u></em>   00:32</p>
 
 <h3 id="springboot基础环境"><em>springboot基础环境</em></h3>
 

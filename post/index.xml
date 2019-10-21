@@ -17,7 +17,7 @@
       <pubDate>Mon, 21 Oct 2019 21:35:06 +0800</pubDate>
       
       <guid>https://dongr12138.github.io/post/1021/</guid>
-      <description>Who wrote the book on goodbye? &amp;mdash;-Lauv 00:32
+      <description>Who wrote the book on goodbye? &amp;mdash;-Lauv《The Other》 00:32
 springboot基础环境 Maven依赖 &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-websocket&amp;lt;/artifactId&amp;gt; &amp;lt;/dependency&amp;gt;  代码准备 准备常量类 //webSocket相关配置 //链接地址 public static String WEBSOCKETPATHPERFIX = &amp;quot;/ws-push&amp;quot;; public static String WEBSOCKETPATH = &amp;quot;/endpointWisely&amp;quot;; //消息代理路径 public static String WEBSOCKETBROADCASTPATH = &amp;quot;/topic&amp;quot;; //前端发送给服务端请求地址 public static final String FORETOSERVERPATH = &amp;quot;/welcome&amp;quot;; //服务端生产地址,客户端订阅此地址以接收服务端生产的消息 public static final String PRODUCERPATH = &amp;quot;/topic/getResponse&amp;quot;; //点对点消息推送地址前缀 public static final String P2PPUSHBASEPATH = &amp;quot;/user&amp;quot;; //点对点消息推送地址后缀,最后的地址为/user/用户识别码/msg public static final String P2PPUSHPATH = &amp;quot;/msg&amp;quot;;  接收前端消息实体 public class WiselyMessage { private String name; public String getName() { return name; } public void setName(String name) { this.</description>
     </item>
     
