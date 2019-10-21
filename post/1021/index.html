@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="rui">
+  <meta name="description" content="我不接受批评，你如果说我，我就骂你">
+  <meta name="generator" content="Hugo 0.58.3" />
+
+  <title>1021-springboot整合websocket实现一对一消息推送和广播消息推送 &middot; Maybe...</title>
+
+  <link rel="shortcut icon" href="https://dongr12138.github.io/images/favicon.ico">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/spectre.min.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/style.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/highlight.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+  
+
+  
+    <link href="" rel="alternate" type="application/rss+xml" title="Maybe..." />
+  
+
+  
+  <meta property="og:title" content="1021-springboot整合websocket实现一对一消息推送和广播消息推送" />
+<meta property="og:description" content="Who wrote the book on goodbye? &mdash;-Lauv 00:32
+springboot基础环境 Maven依赖 &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt; &lt;/dependency&gt;  代码准备 准备常量类 //webSocket相关配置 //链接地址 public static String WEBSOCKETPATHPERFIX = &quot;/ws-push&quot;; public static String WEBSOCKETPATH = &quot;/endpointWisely&quot;; //消息代理路径 public static String WEBSOCKETBROADCASTPATH = &quot;/topic&quot;; //前端发送给服务端请求地址 public static final String FORETOSERVERPATH = &quot;/welcome&quot;; //服务端生产地址,客户端订阅此地址以接收服务端生产的消息 public static final String PRODUCERPATH = &quot;/topic/getResponse&quot;; //点对点消息推送地址前缀 public static final String P2PPUSHBASEPATH = &quot;/user&quot;; //点对点消息推送地址后缀,最后的地址为/user/用户识别码/msg public static final String P2PPUSHPATH = &quot;/msg&quot;;  接收前端消息实体 public class WiselyMessage { private String name; public String getName() { return name; } public void setName(String name) { this." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dongr12138.github.io/post/1021/" />
+<meta property="article:published_time" content="2019-10-21T21:35:06+08:00" />
+<meta property="article:modified_time" content="2019-10-21T21:35:06+08:00" />
+
+  
+  <meta itemprop="name" content="1021-springboot整合websocket实现一对一消息推送和广播消息推送">
+<meta itemprop="description" content="Who wrote the book on goodbye? &mdash;-Lauv 00:32
+springboot基础环境 Maven依赖 &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt; &lt;/dependency&gt;  代码准备 准备常量类 //webSocket相关配置 //链接地址 public static String WEBSOCKETPATHPERFIX = &quot;/ws-push&quot;; public static String WEBSOCKETPATH = &quot;/endpointWisely&quot;; //消息代理路径 public static String WEBSOCKETBROADCASTPATH = &quot;/topic&quot;; //前端发送给服务端请求地址 public static final String FORETOSERVERPATH = &quot;/welcome&quot;; //服务端生产地址,客户端订阅此地址以接收服务端生产的消息 public static final String PRODUCERPATH = &quot;/topic/getResponse&quot;; //点对点消息推送地址前缀 public static final String P2PPUSHBASEPATH = &quot;/user&quot;; //点对点消息推送地址后缀,最后的地址为/user/用户识别码/msg public static final String P2PPUSHPATH = &quot;/msg&quot;;  接收前端消息实体 public class WiselyMessage { private String name; public String getName() { return name; } public void setName(String name) { this.">
+
+
+<meta itemprop="datePublished" content="2019-10-21T21:35:06&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-21T21:35:06&#43;08:00" />
+<meta itemprop="wordCount" content="422">
+
+
+
+<meta itemprop="keywords" content="" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="1021-springboot整合websocket实现一对一消息推送和广播消息推送"/>
+<meta name="twitter:description" content="Who wrote the book on goodbye? &mdash;-Lauv 00:32
+springboot基础环境 Maven依赖 &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt; &lt;/dependency&gt;  代码准备 准备常量类 //webSocket相关配置 //链接地址 public static String WEBSOCKETPATHPERFIX = &quot;/ws-push&quot;; public static String WEBSOCKETPATH = &quot;/endpointWisely&quot;; //消息代理路径 public static String WEBSOCKETBROADCASTPATH = &quot;/topic&quot;; //前端发送给服务端请求地址 public static final String FORETOSERVERPATH = &quot;/welcome&quot;; //服务端生产地址,客户端订阅此地址以接收服务端生产的消息 public static final String PRODUCERPATH = &quot;/topic/getResponse&quot;; //点对点消息推送地址前缀 public static final String P2PPUSHBASEPATH = &quot;/user&quot;; //点对点消息推送地址后缀,最后的地址为/user/用户识别码/msg public static final String P2PPUSHPATH = &quot;/msg&quot;;  接收前端消息实体 public class WiselyMessage { private String name; public String getName() { return name; } public void setName(String name) { this."/>
+
+</head>
+
+<body onload="setPixelFont()">
+  <div class="container p-fixed" style="z-index:3">
+  <nav class="navbar m-2 p-2 s-rounded shadow bg-primary">
+    <section class="navbar-section">
+      <button class="btn btn-action btn-primary s-circle text-gray" id="pixelfont-toggle"><i class="fas fa-robot fa-lg"></i></button>
+    </section>
+    <section class="navbar-section">
+      
+        <a class="btn btn-primary" href='https://dongr12138.github.io/'>Home</a>
+      
+
+      
+
+      
+      <a class="btn btn-accent" href="" target="_blank"><i class="fas fa-rss fa-lg"></i></a>
+      
+    </section>
+  </nav>
+</div>
+
+  <section class="container grid-md">
+  <div class="columns">
+    
+    
+<article class="container p-centered mt-space">
+  <header>
+    <h2 class="text-center">1021-springboot整合websocket实现一对一消息推送和广播消息推送</h2>
+    <h6 class="text-gray text-italic"></h6>
+  </header>
+  <section class="my-gap">
+    
+
+<p><em><u>Who wrote the book on goodbye?          &mdash;-Lauv<The Other></u></em>   00:32</p>
+
+<h3 id="springboot基础环境"><em>springboot基础环境</em></h3>
+
+<h4 id="maven依赖"><em>Maven依赖</em></h4>
+
+<pre><code class="language-xml">&lt;dependency&gt;            
+   &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            						&lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt;        
+&lt;/dependency&gt;
+</code></pre>
+
+<h5 id="代码准备"><em>代码准备</em></h5>
+
+<h6 id="准备常量类"><em>准备常量类</em></h6>
+
+<pre><code class="language-java">//webSocket相关配置
+    //链接地址
+    public static String WEBSOCKETPATHPERFIX = &quot;/ws-push&quot;;
+    public static String WEBSOCKETPATH = &quot;/endpointWisely&quot;;
+    //消息代理路径
+    public static String WEBSOCKETBROADCASTPATH = &quot;/topic&quot;;
+    //前端发送给服务端请求地址
+    public static final String FORETOSERVERPATH = &quot;/welcome&quot;;
+    //服务端生产地址,客户端订阅此地址以接收服务端生产的消息
+    public static final String PRODUCERPATH = &quot;/topic/getResponse&quot;;
+    //点对点消息推送地址前缀
+    public static final String P2PPUSHBASEPATH = &quot;/user&quot;;
+    //点对点消息推送地址后缀,最后的地址为/user/用户识别码/msg
+    public static final String P2PPUSHPATH = &quot;/msg&quot;;
+</code></pre>
+
+<h6 id="接收前端消息实体"><em>接收前端消息实体</em></h6>
+
+<pre><code class="language-java">public class WiselyMessage {
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+</code></pre>
+
+<h6 id="后台发送消息实体"><em>后台发送消息实体</em></h6>
+
+<pre><code class="language-javascript">private String responseMessage;
+
+    public WiselyResponse(String responseMessage){
+        this.responseMessage = responseMessage;
+    }
+
+    public String getResponseMessage() {
+        return responseMessage;
+    }
+
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
+    }
+配置websocket
+@Configuration
+// @EnableWebSocketMessageBroker注解用于开启使用STOMP协议来传输基于代理（MessageBroker）的消息，这时候控制器（controller）
+// 开始支持@MessageMapping,就像是使用@requestMapping一样。
+@EnableWebSocketMessageBroker
+public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {
+        //注册一个Stomp的节点（endpoint）,并指定使用SockJS协议。
+        stompEndpointRegistry.addEndpoint(Constant.WEBSOCKETPATH).withSockJS();
+    }
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        //服务端发送消息给客户端的域,多个用逗号隔开
+        registry.enableSimpleBroker(Constant.WEBSOCKETBROADCASTPATH, Constant.P2PPUSHBASEPATH);
+        //定义一对一推送的时候前缀
+        registry.setUserDestinationPrefix(Constant.P2PPUSHBASEPATH);
+        //定义websoket前缀
+        registry.setApplicationDestinationPrefixes(Constant.WEBSOCKETPATHPERFIX);
+    }
+}
+service
+@Service
+public class WebSocketService {
+
+    @Autowired
+    private SimpMessagingTemplate template;
+
+    /**
+     * 广播
+     * 发给所有在线用户
+     *
+     * @param msg
+     */
+    public void sendMsg(WiselyResponse msg) {
+        template.convertAndSend(Constant.PRODUCERPATH, msg);
+    }
+
+    /**
+     * 发送给指定用户
+     * @param users
+     * @param msg
+     */
+    public void send2Users(List&lt;String&gt; users, WiselyResponse msg) {
+        users.forEach(userName -&gt; {
+            template.convertAndSendToUser(userName, Constant.P2PPUSHPATH, msg);
+        });
+    }
+}
+</code></pre>
+
+<h6 id="控制器"><em>控制器</em></h6>
+
+<pre><code class="language-java">@Controller
+public class WsController {
+
+    @Resource
+    WebSocketService webSocketService;
+
+    @MessageMapping(Constant.FORETOSERVERPATH)//@MessageMapping和@RequestMapping功能类似，用于设置URL映射地址，浏览器向服务器发起请求，需要通过该地址。
+    @SendTo(Constant.PRODUCERPATH)//如果服务器接受到了消息，就会对订阅了@SendTo括号中的地址传送消息。
+    public WiselyResponse say(WiselyMessage message) throws Exception {
+        List&lt;String&gt; users = Lists.newArrayList();
+        users.add(&quot;d892bf12bf7d11e793b69c5c8e6f60fb&quot;);//此处写死只是为了方便测试,此值需要对应页面中订阅个人消息的userId
+        webSocketService.send2Users(users, new WiselyResponse(&quot;admin hello&quot;));
+
+        return new WiselyResponse(&quot;Welcome, &quot; + message.getName() + &quot;!&quot;);
+    }
+}
+</code></pre>
+
+<h6 id="页面"><em>页面</em></h6>
+
+<pre><code class="language-java">&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;title&gt;Spring Boot+WebSocket+广播式&lt;/title&gt;
+
+&lt;/head&gt;
+&lt;body onload=&quot;disconnect()&quot;&gt;
+&lt;noscript&gt;&lt;h2 style=&quot;color: #ff0000&quot;&gt;貌似你的浏览器不支持websocket&lt;/h2&gt;&lt;/noscript&gt;
+&lt;div&gt;
+    &lt;div&gt;
+        &lt;button id=&quot;connect&quot; onclick=&quot;connect();&quot;&gt;连接&lt;/button&gt;
+        &lt;button id=&quot;disconnect&quot; disabled=&quot;disabled&quot; onclick=&quot;disconnect();&quot;&gt;断开连接&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;conversationDiv&quot;&gt;
+        &lt;label&gt;输入你的名字&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;name&quot; /&gt;
+        &lt;button id=&quot;sendName&quot; onclick=&quot;sendName();&quot;&gt;发送&lt;/button&gt;
+        &lt;p id=&quot;response&quot;&gt;&lt;/p&gt;
+        &lt;p id=&quot;response1&quot;&gt;&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;!--&lt;script th:src=&quot;@{sockjs.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{stomp.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{jquery.js}&quot;&gt;&lt;/script&gt;--&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script th:inline=&quot;javascript&quot;&gt;
+    var stompClient = null;
+    //此值有服务端传递给前端,实现方式没有要求
+    var userId = [[${userId}]];
+
+    function setConnected(connected) {
+        document.getElementById('connect').disabled = connected;
+        document.getElementById('disconnect').disabled = !connected;
+        document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+        $('#response').html();
+    }
+
+    function connect() {
+        var socket = new SockJS('/endpointWisely'); //1连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。
+        stompClient = Stomp.over(socket);//2创建STOMP协议的webSocket客户端。
+        stompClient.connect({}, function(frame) {//3连接webSocket的服务端。
+            setConnected(true);
+            console.log('开始进行连接Connected: ' + frame);
+            //4通过stompClient.subscribe（）订阅服务器的目标是'/topic/getResponse'发送过来的地址，与@SendTo中的地址对应。
+            stompClient.subscribe('/topic/getResponse', function(respnose){
+                showResponse(JSON.parse(respnose.body).responseMessage);
+            });
+            //4通过stompClient.subscribe（）订阅服务器的目标是'/user/' + userId + '/msg'接收一对一的推送消息,其中userId由服务端传递过来,用于表示唯一的用户,通过此值将消息精确推送给一个用户
+            stompClient.subscribe('/user/' + userId + '/msg', function(respnose){
+                console.log(respnose);
+                showResponse1(JSON.parse(respnose.body).responseMessage);
+            });
+        });
+    }
+
+
+    function disconnect() {
+        if (stompClient != null) {
+            stompClient.disconnect();
+        }
+        setConnected(false);
+        console.log(&quot;Disconnected&quot;);
+    }
+
+    function sendName() {
+        var name = $('#name').val();
+        //通过stompClient.send（）向地址为&quot;/welcome&quot;的服务器地址发起请求，与@MessageMapping里的地址对应。因为我们配置了registry.setApplicationDestinationPrefixes(Constant.WEBSOCKETPATHPERFIX);所以需要增加前缀/ws-push/
+        stompClient.send(&quot;/ws-push/welcome&quot;, {}, JSON.stringify({ 'name': name }));
+    }
+
+    function showResponse(message) {
+        var response = $(&quot;#response&quot;);
+        response.html(message);
+    }
+    function showResponse1(message) {
+        var response = $(&quot;#response1&quot;);
+        response.html(message);
+    }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+
+    
+  </section>
+  <div class="divider my-gap"></div>
+  <footer class="col-12 d-inline-block">
+    <span class="float-left">
+      <button class="btn btn-action btn-accent shadow s-circle" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
+    </span>
+    <span class="float-right">
+      <div class="text-right float-left mx-2">
+        <span class="text-dark">rui</span><br>
+        <span class="text-gray">黑丑</span>
+      </div>
+      <figure class="avatar avatar-lg">
+        <img id="profile">
+      </figure>
+    </span>
+  </footer>
+</article>
+
+    <footer class="container p-centered text-center my-gap">
+  
+    <div class="container">
+
+  
+    <a class="symbol" href="mailto:dongr12138@gmail.com" target="_blank"><i class="fas fa-envelope"></i>
+  
+  </a>
+
+  
+    <a class="symbol" href="https://github.com/dongr12138/dongr12138.github.io/" target="_blank"><i class="fab fa-github"></i>
+  
+  </a>
+
+</div>
+
+  
+
+  <small class="text-gray">
+  
+    © Copyright 2019 rui
+  
+  </small>
+</footer>
+
+  </div>
+  </section>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://dongr12138.github.io/js/main.js"></script>
+<script src="https://dongr12138.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
