@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="rui">
+  <meta name="description" content="我不接受批评，你如果说我，我就骂你">
+  <meta name="generator" content="Hugo 0.58.3" />
+
+  <title>1022-Springboot 日志 &middot; Maybe...</title>
+
+  <link rel="shortcut icon" href="https://dongr12138.github.io/images/favicon.ico">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/spectre.min.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/style.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/highlight.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+  
+
+  
+    <link href="" rel="alternate" type="application/rss+xml" title="Maybe..." />
+  
+
+  
+  <meta property="og:title" content="1022-Springboot 日志" />
+<meta property="og:description" content="不一起看星星，星星它亮有什么用。 &mdash;Kirsty刘瑾睿 《若把你》 02：09
+日志 1.日志框架 小张；开发一个大型系统；
+​ 1、System.out.println(&ldquo;&rdquo;)；将关键数据打印在控制台；去掉？写在一个文件？
+​ 2、框架来记录系统的一些运行时信息；日志框架 ； zhanglogging.jar；
+​ 3、高大上的几个功能？异步模式？自动归档？xxxx？ zhanglogging-good.jar？
+​ 4、将以前框架卸下来？换上新的框架，重新修改之前相关的API；zhanglogging-prefect.jar；
+​ 5、JDBC&mdash;数据库驱动；
+​ 写了一个统一的接口层；日志门面（日志的一个抽象层）；logging-abstract.jar；
+​ 给项目中导入具体的日志实现就行了；我们之前的日志框架都是实现的抽象层；
+市面上的日志框架；
+JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j&hellip;.
+   日志门面 （日志的抽象层） 日志实现     JCL（Jakarta Commons Logging） SLF4j（Simple Logging Facade for Java） jboss-logging Log4j JUL（java.util.logging） Log4j2 Logback    左边选一个门面（抽象层）、右边来选一个实现；
+日志门面： SLF4J；
+日志实现：Logback；
+SpringBoot：底层是Spring框架，Spring框架默认是用JCL；‘
+​ ==SpringBoot选用 SLF4j和logback；==
+2、SLF4j使用 1、如何在系统中使用SLF4j https://www.slf4j.org 以后开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法；
+给系统里面导入slf4j的jar和 logback的实现jar
+import org.slf4j.Logger; import org." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dongr12138.github.io/post/1022/" />
+<meta property="article:published_time" content="2019-10-22T20:47:49+08:00" />
+<meta property="article:modified_time" content="2019-10-22T20:47:49+08:00" />
+
+  
+  <meta itemprop="name" content="1022-Springboot 日志">
+<meta itemprop="description" content="不一起看星星，星星它亮有什么用。 &mdash;Kirsty刘瑾睿 《若把你》 02：09
+日志 1.日志框架 小张；开发一个大型系统；
+​ 1、System.out.println(&ldquo;&rdquo;)；将关键数据打印在控制台；去掉？写在一个文件？
+​ 2、框架来记录系统的一些运行时信息；日志框架 ； zhanglogging.jar；
+​ 3、高大上的几个功能？异步模式？自动归档？xxxx？ zhanglogging-good.jar？
+​ 4、将以前框架卸下来？换上新的框架，重新修改之前相关的API；zhanglogging-prefect.jar；
+​ 5、JDBC&mdash;数据库驱动；
+​ 写了一个统一的接口层；日志门面（日志的一个抽象层）；logging-abstract.jar；
+​ 给项目中导入具体的日志实现就行了；我们之前的日志框架都是实现的抽象层；
+市面上的日志框架；
+JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j&hellip;.
+   日志门面 （日志的抽象层） 日志实现     JCL（Jakarta Commons Logging） SLF4j（Simple Logging Facade for Java） jboss-logging Log4j JUL（java.util.logging） Log4j2 Logback    左边选一个门面（抽象层）、右边来选一个实现；
+日志门面： SLF4J；
+日志实现：Logback；
+SpringBoot：底层是Spring框架，Spring框架默认是用JCL；‘
+​ ==SpringBoot选用 SLF4j和logback；==
+2、SLF4j使用 1、如何在系统中使用SLF4j https://www.slf4j.org 以后开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法；
+给系统里面导入slf4j的jar和 logback的实现jar
+import org.slf4j.Logger; import org.">
+
+
+<meta itemprop="datePublished" content="2019-10-22T20:47:49&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-22T20:47:49&#43;08:00" />
+<meta itemprop="wordCount" content="347">
+
+
+
+<meta itemprop="keywords" content="" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="1022-Springboot 日志"/>
+<meta name="twitter:description" content="不一起看星星，星星它亮有什么用。 &mdash;Kirsty刘瑾睿 《若把你》 02：09
+日志 1.日志框架 小张；开发一个大型系统；
+​ 1、System.out.println(&ldquo;&rdquo;)；将关键数据打印在控制台；去掉？写在一个文件？
+​ 2、框架来记录系统的一些运行时信息；日志框架 ； zhanglogging.jar；
+​ 3、高大上的几个功能？异步模式？自动归档？xxxx？ zhanglogging-good.jar？
+​ 4、将以前框架卸下来？换上新的框架，重新修改之前相关的API；zhanglogging-prefect.jar；
+​ 5、JDBC&mdash;数据库驱动；
+​ 写了一个统一的接口层；日志门面（日志的一个抽象层）；logging-abstract.jar；
+​ 给项目中导入具体的日志实现就行了；我们之前的日志框架都是实现的抽象层；
+市面上的日志框架；
+JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j&hellip;.
+   日志门面 （日志的抽象层） 日志实现     JCL（Jakarta Commons Logging） SLF4j（Simple Logging Facade for Java） jboss-logging Log4j JUL（java.util.logging） Log4j2 Logback    左边选一个门面（抽象层）、右边来选一个实现；
+日志门面： SLF4J；
+日志实现：Logback；
+SpringBoot：底层是Spring框架，Spring框架默认是用JCL；‘
+​ ==SpringBoot选用 SLF4j和logback；==
+2、SLF4j使用 1、如何在系统中使用SLF4j https://www.slf4j.org 以后开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法；
+给系统里面导入slf4j的jar和 logback的实现jar
+import org.slf4j.Logger; import org."/>
+
+</head>
+
+<body onload="setPixelFont()">
+  <div class="container p-fixed" style="z-index:3">
+  <nav class="navbar m-2 p-2 s-rounded shadow bg-primary">
+    <section class="navbar-section">
+      <button class="btn btn-action btn-primary s-circle text-gray" id="pixelfont-toggle"><i class="fas fa-robot fa-lg"></i></button>
+    </section>
+    <section class="navbar-section">
+      
+        <a class="btn btn-primary" href='https://dongr12138.github.io/'>Home</a>
+      
+
+      
+
+      
+      <a class="btn btn-accent" href="" target="_blank"><i class="fas fa-rss fa-lg"></i></a>
+      
+    </section>
+  </nav>
+</div>
+
+  <section class="container grid-md">
+  <div class="columns">
+    
+    
+<article class="container p-centered mt-space">
+  <header>
+    <h2 class="text-center">1022-Springboot 日志</h2>
+    <h6 class="text-gray text-italic"></h6>
+  </header>
+  <section class="my-gap">
+    
+
+<p><em><u>不一起看星星，星星它亮有什么用。 &mdash;Kirsty刘瑾睿 《若把你》</u></em>   02：09</p>
+
+<h1 id="日志">日志</h1>
+
+<h2 id="1-日志框架">1.日志框架</h2>
+
+<p>小张；开发一个大型系统；</p>
+
+<p>​       1、System.out.println(&ldquo;&rdquo;)；将关键数据打印在控制台；去掉？写在一个文件？</p>
+
+<p>​       2、框架来记录系统的一些运行时信息；日志框架 ；  zhanglogging.jar；</p>
+
+<p>​       3、高大上的几个功能？异步模式？自动归档？xxxx？  zhanglogging-good.jar？</p>
+
+<p>​       4、将以前框架卸下来？换上新的框架，重新修改之前相关的API；zhanglogging-prefect.jar；</p>
+
+<p>​       5、JDBC&mdash;数据库驱动；</p>
+
+<p>​           写了一个统一的接口层；日志门面（日志的一个抽象层）；logging-abstract.jar；</p>
+
+<p>​           给项目中导入具体的日志实现就行了；我们之前的日志框架都是实现的抽象层；</p>
+
+<p><strong>市面上的日志框架；</strong></p>
+
+<p>JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j&hellip;.</p>
+
+<table>
+<thead>
+<tr>
+<th>日志门面  （日志的抽象层）</th>
+<th align="center">日志实现</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><del>JCL（Jakarta  Commons Logging）</del>    SLF4j（Simple  Logging Facade for Java）    <strong><del>jboss-logging</del></strong></td>
+<td align="center">Log4j  JUL（java.util.logging）  Log4j2  <strong>Logback</strong></td>
+</tr>
+</tbody>
+</table>
+
+<p>左边选一个门面（抽象层）、右边来选一个实现；</p>
+
+<p>日志门面：  SLF4J；</p>
+
+<p>日志实现：Logback；</p>
+
+<p>SpringBoot：底层是Spring框架，Spring框架默认是用JCL；‘</p>
+
+<p>​   <strong>==SpringBoot选用 SLF4j和logback；==</strong></p>
+
+<h2 id="2-slf4j使用">2、SLF4j使用</h2>
+
+<h3 id="1-如何在系统中使用slf4j-https-www-slf4j-org">1、如何在系统中使用SLF4j   <a href="https://www.slf4j.org">https://www.slf4j.org</a></h3>
+
+<p>以后开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法；</p>
+
+<p>给系统里面导入slf4j的jar和  logback的实现jar</p>
+
+<pre><code class="language-java">import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class HelloWorld {
+  public static void main(String[] args) {
+    Logger logger = LoggerFactory.getLogger(HelloWorld.class);
+    logger.info(&quot;Hello World&quot;);
+  }
+}
+</code></pre>
+
+<p>每一个日志的实现框架都有自己的配置文件。使用slf4j以后，<strong>配置文件还是做成日志实现框架自己本身的配置文件；</strong></p>
+
+<h3 id="2-遗留问题">2、遗留问题</h3>
+
+<p>a（slf4j+logback）: Spring（commons-logging）、Hibernate（jboss-logging）、MyBatis、xxxx</p>
+
+<p>统一日志记录，即使是别的框架和我一起统一使用slf4j进行输出？</p>
+
+<p><strong>如何让系统中所有的日志都统一到slf4j；</strong></p>
+
+<p>==1、将系统中其他日志框架先排除出去；==</p>
+
+<p>==2、用中间包来替换原有的日志框架；==</p>
+
+<p>==3、我们导入slf4j其他的实现==</p>
+
+<h2 id="3-springboot日志关系">3、SpringBoot日志关系</h2>
+
+<pre><code class="language-xml">		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+		&lt;/dependency&gt;
+</code></pre>
+
+<p>SpringBoot使用它来做日志功能；</p>
+
+<pre><code class="language-xml">	&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt;
+		&lt;/dependency&gt;
+</code></pre>
+
+<p>底层依赖关系</p>
+
+<p>总结：</p>
+
+<p>​   1）、SpringBoot底层也是使用slf4j+logback的方式进行日志记录</p>
+
+<p>​   2）、SpringBoot也把其他的日志都替换成了slf4j；</p>
+
+<p>​   3）、中间替换包？</p>
+
+<pre><code class="language-java">@SuppressWarnings(&quot;rawtypes&quot;)
+public abstract class LogFactory {
+
+    static String UNSUPPORTED_OPERATION_IN_JCL_OVER_SLF4J = &quot;http://www.slf4j.org/codes.html#unsupported_operation_in_jcl_over_slf4j&quot;;
+
+    static LogFactory logFactory = new SLF4JLogFactory();
+</code></pre>
+
+<p>4）、如果我们要引入其他框架？一定要把这个框架的默认日志依赖移除掉？</p>
+
+<p>​           Spring框架用的是commons-logging；</p>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-core&lt;/artifactId&gt;
+			&lt;exclusions&gt;
+				&lt;exclusion&gt;
+					&lt;groupId&gt;commons-logging&lt;/groupId&gt;
+					&lt;artifactId&gt;commons-logging&lt;/artifactId&gt;
+				&lt;/exclusion&gt;
+			&lt;/exclusions&gt;
+		&lt;/dependency&gt;
+</code></pre>
+
+<p>==SpringBoot能自动适配所有的日志，而且底层使用slf4j+logback的方式记录日志，引入其他框架的时候，只需要把这个框架依赖的日志框架排除掉即可；==</p>
+
+<h2 id="4-日志使用">4、日志使用；</h2>
+
+<h3 id="1-默认配置">1、默认配置</h3>
+
+<pre><code class="language-java">	//记录器
+	Logger logger = LoggerFactory.getLogger(getClass());
+	@Test
+	public void contextLoads() {
+		//System.out.println();
+
+		//日志的级别；
+		//由低到高   trace&lt;debug&lt;info&lt;warn&lt;error
+		//可以调整输出的日志级别；日志就只会在这个级别以以后的高级别生效
+		logger.trace(&quot;这是trace日志...&quot;);
+		logger.debug(&quot;这是debug日志...&quot;);
+		//SpringBoot默认给我们使用的是info级别的，没有指定级别的就用SpringBoot默认规定的级别；root级别
+		logger.info(&quot;这是info日志...&quot;);
+		logger.warn(&quot;这是warn日志...&quot;);
+		logger.error(&quot;这是error日志...&quot;);
+
+
+	}
+</code></pre>
+
+<pre><code class="language-java"> 日志输出格式：
+		%d表示日期时间，
+		%thread表示线程名，
+		%-5level：级别从左显示5个字符宽度
+		%logger{50} 表示logger名字最长50个字符，否则按照句点分割。 
+		%msg：日志消息，
+		%n是换行符
+    --&gt;
+    %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+</code></pre>
+
+<p>SpringBoot修改日志的默认配置</p>
+
+<pre><code class="language-properties">logging.level.com.atguigu=trace
+
+
+#logging.path=
+# 不指定路径在当前项目下生成springboot.log日志
+# 可以指定完整的路径；
+#logging.file=G:/springboot.log
+
+# 在当前磁盘的根路径下创建spring文件夹和里面的log文件夹；使用 spring.log 作为默认文件
+logging.path=/spring/log
+
+#  在控制台输出的日志的格式
+logging.pattern.console=%d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n
+# 指定文件中日志输出的格式
+logging.pattern.file=%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} ==== %msg%n
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th align="center">logging.file</th>
+<th align="center">logging.path</th>
+<th align="center">Example</th>
+<th align="center">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="center">(none)</td>
+<td align="center">(none)</td>
+<td align="center"></td>
+<td align="center">只在控制台输出</td>
+</tr>
+
+<tr>
+<td align="center">指定文件名</td>
+<td align="center">(none)</td>
+<td align="center">my.log</td>
+<td align="center">输出日志到my.log文件</td>
+</tr>
+
+<tr>
+<td align="center">(none)</td>
+<td align="center">指定目录</td>
+<td align="center">/var/log</td>
+<td align="center">输出到指定目录的 spring.log 文件中</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="2-指定配置">2、指定配置</h3>
+
+<p>给类路径下放上每个日志框架自己的配置文件即可；SpringBoot就不使用他默认配置的了</p>
+
+<table>
+<thead>
+<tr>
+<th>Logging System</th>
+<th>Customization</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Logback</td>
+<td><code>logback-spring.xml</code>, <code>logback-spring.groovy</code>, <code>logback.xml</code> or <code>logback.groovy</code></td>
+</tr>
+
+<tr>
+<td>Log4j2</td>
+<td><code>log4j2-spring.xml</code> or <code>log4j2.xml</code></td>
+</tr>
+
+<tr>
+<td>JDK (Java Util Logging)</td>
+<td><code>logging.properties</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>logback.xml：直接就被日志框架识别了；</p>
+
+<p><strong>logback-spring.xml</strong>：日志框架就不直接加载日志的配置项，由SpringBoot解析日志配置，可以使用SpringBoot的高级Profile功能</p>
+
+<pre><code class="language-xml">&lt;springProfile name=&quot;staging&quot;&gt;
+    &lt;!-- configuration to be enabled when the &quot;staging&quot; profile is active --&gt;
+  	可以指定某段配置只在某个环境下生效
+&lt;/springProfile&gt;
+</code></pre>
+
+<p>如：</p>
+
+<pre><code class="language-xml">&lt;appender name=&quot;stdout&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
+        &lt;!--
+        日志输出格式：
+			%d表示日期时间，
+			%thread表示线程名，
+			%-5level：级别从左显示5个字符宽度
+			%logger{50} 表示logger名字最长50个字符，否则按照句点分割。 
+			%msg：日志消息，
+			%n是换行符
+        --&gt;
+        &lt;layout class=&quot;ch.qos.logback.classic.PatternLayout&quot;&gt;
+            &lt;springProfile name=&quot;dev&quot;&gt;
+                &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} ----&gt; [%thread] ---&gt; %-5level %logger{50} - %msg%n&lt;/pattern&gt;
+            &lt;/springProfile&gt;
+            &lt;springProfile name=&quot;!dev&quot;&gt;
+                &lt;pattern&gt;%d{yyyy-MM-dd HH:mm:ss.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%n&lt;/pattern&gt;
+            &lt;/springProfile&gt;
+        &lt;/layout&gt;
+    &lt;/appender&gt;
+</code></pre>
+
+<p>如果使用logback.xml作为日志配置文件，还要使用profile功能，会有以下错误</p>
+
+<p><code>no applicable action for [springProfile]</code></p>
+
+<h2 id="5-切换日志框架">5、切换日志框架</h2>
+
+<p>可以按照slf4j的日志适配图，进行相关的切换；</p>
+
+<p>slf4j+log4j的方式；</p>
+
+<pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+  &lt;exclusions&gt;
+    &lt;exclusion&gt;
+      &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;
+      &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;
+    &lt;/exclusion&gt;
+    &lt;exclusion&gt;
+      &lt;artifactId&gt;log4j-over-slf4j&lt;/artifactId&gt;
+      &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+    &lt;/exclusion&gt;
+  &lt;/exclusions&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+  &lt;groupId&gt;org.slf4j&lt;/groupId&gt;
+  &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+</code></pre>
+
+<p>切换为log4j2</p>
+
+<pre><code class="language-xml">   &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                    &lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt;
+                    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
+
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<hr />
+
+
+    
+  </section>
+  <div class="divider my-gap"></div>
+  <footer class="col-12 d-inline-block">
+    <span class="float-left">
+      <button class="btn btn-action btn-accent shadow s-circle" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
+    </span>
+    <span class="float-right">
+      <div class="text-right float-left mx-2">
+        <span class="text-dark">rui</span><br>
+        <span class="text-gray">黑丑</span>
+      </div>
+      <figure class="avatar avatar-lg">
+        <img id="profile">
+      </figure>
+    </span>
+  </footer>
+</article>
+
+    <footer class="container p-centered text-center my-gap">
+  
+    <div class="container">
+
+  
+    <a class="symbol" href="mailto:dongr12138@gmail.com" target="_blank"><i class="fas fa-envelope"></i>
+  
+  </a>
+
+  
+    <a class="symbol" href="https://github.com/dongr12138/dongr12138.github.io/" target="_blank"><i class="fab fa-github"></i>
+  
+  </a>
+
+</div>
+
+  
+
+  <small class="text-gray">
+  
+    © Copyright 2019 rui
+  
+  </small>
+</footer>
+
+  </div>
+  </section>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://dongr12138.github.io/js/main.js"></script>
+<script src="https://dongr12138.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>

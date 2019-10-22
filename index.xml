@@ -6,13 +6,40 @@
     <description>Recent content on Maybe...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 21 Oct 2019 21:35:06 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 22 Oct 2019 20:47:49 +0800</lastBuildDate>
     
 	<atom:link href="https://dongr12138.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>1021-springboot整合websocket实现一对一消息推送和广播消息推送</title>
+      <title>1022-Springboot 日志</title>
+      <link>https://dongr12138.github.io/post/1022/</link>
+      <pubDate>Tue, 22 Oct 2019 20:47:49 +0800</pubDate>
+      
+      <guid>https://dongr12138.github.io/post/1022/</guid>
+      <description>不一起看星星，星星它亮有什么用。 &amp;mdash;Kirsty刘瑾睿 《若把你》 02：09
+日志 1.日志框架 小张；开发一个大型系统；
+​ 1、System.out.println(&amp;ldquo;&amp;rdquo;)；将关键数据打印在控制台；去掉？写在一个文件？
+​ 2、框架来记录系统的一些运行时信息；日志框架 ； zhanglogging.jar；
+​ 3、高大上的几个功能？异步模式？自动归档？xxxx？ zhanglogging-good.jar？
+​ 4、将以前框架卸下来？换上新的框架，重新修改之前相关的API；zhanglogging-prefect.jar；
+​ 5、JDBC&amp;mdash;数据库驱动；
+​ 写了一个统一的接口层；日志门面（日志的一个抽象层）；logging-abstract.jar；
+​ 给项目中导入具体的日志实现就行了；我们之前的日志框架都是实现的抽象层；
+市面上的日志框架；
+JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j&amp;hellip;.
+   日志门面 （日志的抽象层） 日志实现     JCL（Jakarta Commons Logging） SLF4j（Simple Logging Facade for Java） jboss-logging Log4j JUL（java.util.logging） Log4j2 Logback    左边选一个门面（抽象层）、右边来选一个实现；
+日志门面： SLF4J；
+日志实现：Logback；
+SpringBoot：底层是Spring框架，Spring框架默认是用JCL；‘
+​ ==SpringBoot选用 SLF4j和logback；==
+2、SLF4j使用 1、如何在系统中使用SLF4j https://www.slf4j.org 以后开发的时候，日志记录方法的调用，不应该来直接调用日志的实现类，而是调用日志抽象层里面的方法；
+给系统里面导入slf4j的jar和 logback的实现jar
+import org.slf4j.Logger; import org.</description>
+    </item>
+    
+    <item>
+      <title>1021-Springboot整合websocket实现一对一消息推送和广播消息推送</title>
       <link>https://dongr12138.github.io/post/1021/</link>
       <pubDate>Mon, 21 Oct 2019 21:35:06 +0800</pubDate>
       
