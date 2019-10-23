@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="rui">
+  <meta name="description" content="我不接受批评，你如果说我，我就骂你">
+  <meta name="generator" content="Hugo 0.58.3" />
+
+  <title>1023-Springboot Web开发（1） &middot; Maybe...</title>
+
+  <link rel="shortcut icon" href="https://dongr12138.github.io/images/favicon.ico">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/spectre.min.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/style.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/highlight.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+  
+
+  
+    <link href="" rel="alternate" type="application/rss+xml" title="Maybe..." />
+  
+
+  
+  <meta property="og:title" content="1023-Springboot Web开发（1）" />
+<meta property="og:description" content="Web开发 1.简介 使用SpringBoot；
+1）、创建SpringBoot应用，选中我们需要的模块；
+2）、SpringBoot已经默认将这些场景配置好了，只需要在配置文件中指定少量配置就可以运行起来
+3）、自己编写业务代码
+自动配置原理？
+这个场景SpringBoot帮我们配置了什么？能不能修改？能修改哪些配置？能不能扩展？xxx
+xxxxAutoConfiguration：帮我们给容器中自动配置组件； xxxxProperties:配置类来封装配置文件的内容；  2.SpringBoot对静态资源的映射规则 @ConfigurationProperties(prefix = &quot;spring.resources&quot;, ignoreUnknownFields = false) public class ResourceProperties implements ResourceLoaderAware { //可以设置和静态资源有关的参数，缓存时间等  WebMvcAuotConfiguration： @Override public void addResourceHandlers(ResourceHandlerRegistry registry) { if (!this.resourceProperties.isAddMappings()) { logger.debug(&quot;Default resource handling disabled&quot;); return; } Integer cachePeriod = this.resourceProperties.getCachePeriod(); if (!registry.hasMappingForPattern(&quot;/webjars/**&quot;)) { customizeResourceHandlerRegistration( registry.addResourceHandler(&quot;/webjars/**&quot;) .addResourceLocations( &quot;classpath:/META-INF/resources/webjars/&quot;) .setCachePeriod(cachePeriod)); } String staticPathPattern = this.mvcProperties.getStaticPathPattern(); //静态资源文件夹映射 if (!registry.hasMappingForPattern(staticPathPattern)) { customizeResourceHandlerRegistration( registry.addResourceHandler(staticPathPattern) .addResourceLocations( this.resourceProperties.getStaticLocations()) .setCachePeriod(cachePeriod)); } } //配置欢迎页映射 @Bean public WelcomePageHandlerMapping welcomePageHandlerMapping( ResourceProperties resourceProperties) { return new WelcomePageHandlerMapping(resourceProperties." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dongr12138.github.io/post/1023/" />
+<meta property="article:published_time" content="2019-10-23T22:56:43+08:00" />
+<meta property="article:modified_time" content="2019-10-23T22:56:43+08:00" />
+
+  
+  <meta itemprop="name" content="1023-Springboot Web开发（1）">
+<meta itemprop="description" content="Web开发 1.简介 使用SpringBoot；
+1）、创建SpringBoot应用，选中我们需要的模块；
+2）、SpringBoot已经默认将这些场景配置好了，只需要在配置文件中指定少量配置就可以运行起来
+3）、自己编写业务代码
+自动配置原理？
+这个场景SpringBoot帮我们配置了什么？能不能修改？能修改哪些配置？能不能扩展？xxx
+xxxxAutoConfiguration：帮我们给容器中自动配置组件； xxxxProperties:配置类来封装配置文件的内容；  2.SpringBoot对静态资源的映射规则 @ConfigurationProperties(prefix = &quot;spring.resources&quot;, ignoreUnknownFields = false) public class ResourceProperties implements ResourceLoaderAware { //可以设置和静态资源有关的参数，缓存时间等  WebMvcAuotConfiguration： @Override public void addResourceHandlers(ResourceHandlerRegistry registry) { if (!this.resourceProperties.isAddMappings()) { logger.debug(&quot;Default resource handling disabled&quot;); return; } Integer cachePeriod = this.resourceProperties.getCachePeriod(); if (!registry.hasMappingForPattern(&quot;/webjars/**&quot;)) { customizeResourceHandlerRegistration( registry.addResourceHandler(&quot;/webjars/**&quot;) .addResourceLocations( &quot;classpath:/META-INF/resources/webjars/&quot;) .setCachePeriod(cachePeriod)); } String staticPathPattern = this.mvcProperties.getStaticPathPattern(); //静态资源文件夹映射 if (!registry.hasMappingForPattern(staticPathPattern)) { customizeResourceHandlerRegistration( registry.addResourceHandler(staticPathPattern) .addResourceLocations( this.resourceProperties.getStaticLocations()) .setCachePeriod(cachePeriod)); } } //配置欢迎页映射 @Bean public WelcomePageHandlerMapping welcomePageHandlerMapping( ResourceProperties resourceProperties) { return new WelcomePageHandlerMapping(resourceProperties.">
+
+
+<meta itemprop="datePublished" content="2019-10-23T22:56:43&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-23T22:56:43&#43;08:00" />
+<meta itemprop="wordCount" content="972">
+
+
+
+<meta itemprop="keywords" content="" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="1023-Springboot Web开发（1）"/>
+<meta name="twitter:description" content="Web开发 1.简介 使用SpringBoot；
+1）、创建SpringBoot应用，选中我们需要的模块；
+2）、SpringBoot已经默认将这些场景配置好了，只需要在配置文件中指定少量配置就可以运行起来
+3）、自己编写业务代码
+自动配置原理？
+这个场景SpringBoot帮我们配置了什么？能不能修改？能修改哪些配置？能不能扩展？xxx
+xxxxAutoConfiguration：帮我们给容器中自动配置组件； xxxxProperties:配置类来封装配置文件的内容；  2.SpringBoot对静态资源的映射规则 @ConfigurationProperties(prefix = &quot;spring.resources&quot;, ignoreUnknownFields = false) public class ResourceProperties implements ResourceLoaderAware { //可以设置和静态资源有关的参数，缓存时间等  WebMvcAuotConfiguration： @Override public void addResourceHandlers(ResourceHandlerRegistry registry) { if (!this.resourceProperties.isAddMappings()) { logger.debug(&quot;Default resource handling disabled&quot;); return; } Integer cachePeriod = this.resourceProperties.getCachePeriod(); if (!registry.hasMappingForPattern(&quot;/webjars/**&quot;)) { customizeResourceHandlerRegistration( registry.addResourceHandler(&quot;/webjars/**&quot;) .addResourceLocations( &quot;classpath:/META-INF/resources/webjars/&quot;) .setCachePeriod(cachePeriod)); } String staticPathPattern = this.mvcProperties.getStaticPathPattern(); //静态资源文件夹映射 if (!registry.hasMappingForPattern(staticPathPattern)) { customizeResourceHandlerRegistration( registry.addResourceHandler(staticPathPattern) .addResourceLocations( this.resourceProperties.getStaticLocations()) .setCachePeriod(cachePeriod)); } } //配置欢迎页映射 @Bean public WelcomePageHandlerMapping welcomePageHandlerMapping( ResourceProperties resourceProperties) { return new WelcomePageHandlerMapping(resourceProperties."/>
+
+</head>
+
+<body onload="setPixelFont()">
+  <div class="container p-fixed" style="z-index:3">
+  <nav class="navbar m-2 p-2 s-rounded shadow bg-primary">
+    <section class="navbar-section">
+      <button class="btn btn-action btn-primary s-circle text-gray" id="pixelfont-toggle"><i class="fas fa-robot fa-lg"></i></button>
+    </section>
+    <section class="navbar-section">
+      
+        <a class="btn btn-primary" href='https://dongr12138.github.io/'>Home</a>
+      
+
+      
+
+      
+      <a class="btn btn-accent" href="" target="_blank"><i class="fas fa-rss fa-lg"></i></a>
+      
+    </section>
+  </nav>
+</div>
+
+  <section class="container grid-md">
+  <div class="columns">
+    
+    
+<article class="container p-centered mt-space">
+  <header>
+    <h2 class="text-center">1023-Springboot Web开发（1）</h2>
+    <h6 class="text-gray text-italic"></h6>
+  </header>
+  <section class="my-gap">
+    
+
+<h1 id="web开发">Web开发</h1>
+
+<h2 id="1-简介">1.简介</h2>
+
+<p>使用SpringBoot；</p>
+
+<p><strong>1）、创建SpringBoot应用，选中我们需要的模块；</strong></p>
+
+<p><strong>2）、SpringBoot已经默认将这些场景配置好了，只需要在配置文件中指定少量配置就可以运行起来</strong></p>
+
+<p><strong>3）、自己编写业务代码</strong></p>
+
+<p><strong>自动配置原理？</strong></p>
+
+<p>这个场景SpringBoot帮我们配置了什么？能不能修改？能修改哪些配置？能不能扩展？xxx</p>
+
+<pre><code class="language-java">xxxxAutoConfiguration：帮我们给容器中自动配置组件；
+xxxxProperties:配置类来封装配置文件的内容；
+</code></pre>
+
+<h2 id="2-springboot对静态资源的映射规则">2.SpringBoot对静态资源的映射规则</h2>
+
+<pre><code class="language-java">@ConfigurationProperties(prefix = &quot;spring.resources&quot;, ignoreUnknownFields = false)
+public class ResourceProperties implements ResourceLoaderAware {
+  //可以设置和静态资源有关的参数，缓存时间等
+</code></pre>
+
+<pre><code class="language-java">WebMvcAuotConfiguration：
+		@Override
+		public void addResourceHandlers(ResourceHandlerRegistry registry) {
+			if (!this.resourceProperties.isAddMappings()) {
+				logger.debug(&quot;Default resource handling disabled&quot;);
+				return;
+			}
+			Integer cachePeriod = this.resourceProperties.getCachePeriod();
+			if (!registry.hasMappingForPattern(&quot;/webjars/**&quot;)) {
+				customizeResourceHandlerRegistration(
+						registry.addResourceHandler(&quot;/webjars/**&quot;)
+								.addResourceLocations(
+										&quot;classpath:/META-INF/resources/webjars/&quot;)
+						.setCachePeriod(cachePeriod));
+			}
+			String staticPathPattern = this.mvcProperties.getStaticPathPattern();
+          	//静态资源文件夹映射
+			if (!registry.hasMappingForPattern(staticPathPattern)) {
+				customizeResourceHandlerRegistration(
+						registry.addResourceHandler(staticPathPattern)
+								.addResourceLocations(
+										this.resourceProperties.getStaticLocations())
+						.setCachePeriod(cachePeriod));
+			}
+		}
+
+        //配置欢迎页映射
+		@Bean
+		public WelcomePageHandlerMapping welcomePageHandlerMapping(
+				ResourceProperties resourceProperties) {
+			return new WelcomePageHandlerMapping(resourceProperties.getWelcomePage(),
+					this.mvcProperties.getStaticPathPattern());
+		}
+
+       //配置喜欢的图标
+		@Configuration
+		@ConditionalOnProperty(value = &quot;spring.mvc.favicon.enabled&quot;, matchIfMissing = true)
+		public static class FaviconConfiguration {
+
+			private final ResourceProperties resourceProperties;
+
+			public FaviconConfiguration(ResourceProperties resourceProperties) {
+				this.resourceProperties = resourceProperties;
+			}
+
+			@Bean
+			public SimpleUrlHandlerMapping faviconHandlerMapping() {
+				SimpleUrlHandlerMapping mapping = new SimpleUrlHandlerMapping();
+				mapping.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
+              	//所有  **/favicon.ico 
+				mapping.setUrlMap(Collections.singletonMap(&quot;**/favicon.ico&quot;,
+						faviconRequestHandler()));
+				return mapping;
+			}
+
+			@Bean
+			public ResourceHttpRequestHandler faviconRequestHandler() {
+				ResourceHttpRequestHandler requestHandler = new ResourceHttpRequestHandler();
+				requestHandler
+						.setLocations(this.resourceProperties.getFaviconLocations());
+				return requestHandler;
+			}
+
+		}
+</code></pre>
+
+<p>==1）、所有 /webjars/** ，都去 classpath:/META-INF/resources/webjars/ 找资源；==</p>
+
+<p>​   webjars：以jar包的方式引入静态资源；</p>
+
+<p><a href="http://www.webjars.org/">http://www.webjars.org/</a></p>
+
+<p>localhost:8080/webjars/jquery/3.3.1/jquery.js</p>
+
+<pre><code class="language-xml">&lt;!--引入jquery-webjar--&gt;在访问的时候只需要写webjars下面资源的名称即可
+		&lt;dependency&gt;
+			&lt;groupId&gt;org.webjars&lt;/groupId&gt;
+			&lt;artifactId&gt;jquery&lt;/artifactId&gt;
+			&lt;version&gt;3.3.1&lt;/version&gt;
+		&lt;/dependency&gt;
+</code></pre>
+
+<p>==2）、&rdquo;/**&rdquo; 访问当前项目的任何资源，都去（静态资源的文件夹）找映射==</p>
+
+<pre><code class="language-java">&quot;classpath:/META-INF/resources/&quot;, 
+&quot;classpath:/resources/&quot;,
+&quot;classpath:/static/&quot;, 
+&quot;classpath:/public/&quot; 
+&quot;/&quot;：当前项目的根路径
+</code></pre>
+
+<p>localhost:8080/abc ===  去静态资源文件夹里面找abc</p>
+
+<p>==3）、欢迎页； 静态资源文件夹下的所有index.html页面；被&rdquo;/**&ldquo;映射；==</p>
+
+<p>​   localhost:8080/   找index页面</p>
+
+<p>==4）、所有的 **/favicon.ico  都是在静态资源文件下找；==</p>
+
+<h2 id="3-模板引擎">3.模板引擎</h2>
+
+<p>JSP、Velocity、Freemarker、Thymeleaf</p>
+
+<p>SpringBoot推荐的Thymeleaf；</p>
+
+<p>语法更简单，功能更强大；</p>
+
+<h3 id="1-引入thymeleaf">1.引入thymeleaf</h3>
+
+<pre><code class="language-xml">		&lt;dependency&gt;
+			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+			&lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+          	2.1.6
+		&lt;/dependency&gt;
+切换thymeleaf版本
+&lt;properties&gt;
+		&lt;thymeleaf.version&gt;3.0.9.RELEASE&lt;/thymeleaf.version&gt;
+		&lt;!-- 布局功能的支持程序  thymeleaf3主程序  layout2以上版本 --&gt;
+		&lt;!-- thymeleaf2   layout1--&gt;
+		&lt;thymeleaf-layout-dialect.version&gt;2.2.2&lt;/thymeleaf-layout-dialect.version&gt;
+  &lt;/properties&gt;
+</code></pre>
+
+<h3 id="2-thymeleaf使用">2.Thymeleaf使用</h3>
+
+<pre><code class="language-java">@ConfigurationProperties(prefix = &quot;spring.thymeleaf&quot;)
+public class ThymeleafProperties {
+
+	private static final Charset DEFAULT_ENCODING = Charset.forName(&quot;UTF-8&quot;);
+
+	private static final MimeType DEFAULT_CONTENT_TYPE = MimeType.valueOf(&quot;text/html&quot;);
+
+	public static final String DEFAULT_PREFIX = &quot;classpath:/templates/&quot;;
+
+	public static final String DEFAULT_SUFFIX = &quot;.html&quot;;
+  	//
+</code></pre>
+
+<p>只要我们把HTML页面放在classpath:/templates/，thymeleaf就能自动渲染；</p>
+
+<p>使用：</p>
+
+<p>1、导入thymeleaf的名称空间</p>
+
+<pre><code class="language-xml">&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+</code></pre>
+
+<p>2、使用thymeleaf语法；</p>
+
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;成功！&lt;/h1&gt;
+    &lt;!--th:text 将div里面的文本内容设置为 --&gt;
+    &lt;div th:text=&quot;${hello}&quot;&gt;这是显示欢迎信息&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h3 id="3-语法规则">3、语法规则</h3>
+
+<p>1）、th:text；改变当前元素里面的文本内容；</p>
+
+<p>​   th：任意html属性；来替换原生属性的值</p>
+
+<p>2）、表达式？</p>
+
+<pre><code class="language-properties">Simple expressions:（表达式语法）
+    Variable Expressions: ${...}：获取变量值；OGNL；
+    		1）、获取对象的属性、调用方法
+    		2）、使用内置的基本对象：
+    			#ctx : the context object.
+    			#vars: the context variables.
+                #locale : the context locale.
+                #request : (only in Web Contexts) the HttpServletRequest object.
+                #response : (only in Web Contexts) the HttpServletResponse object.
+                #session : (only in Web Contexts) the HttpSession object.
+                #servletContext : (only in Web Contexts) the ServletContext object.
+                
+                ${session.foo}
+            3）、内置的一些工具对象：
+#execInfo : information about the template being processed.
+#messages : methods for obtaining externalized messages inside variables expressions, in the same way as they would be obtained using #{…} syntax.
+#uris : methods for escaping parts of URLs/URIs
+#conversions : methods for executing the configured conversion service (if any).
+#dates : methods for java.util.Date objects: formatting, component extraction, etc.
+#calendars : analogous to #dates , but for java.util.Calendar objects.
+#numbers : methods for formatting numeric objects.
+#strings : methods for String objects: contains, startsWith, prepending/appending, etc.
+#objects : methods for objects in general.
+#bools : methods for boolean evaluation.
+#arrays : methods for arrays.
+#lists : methods for lists.
+#sets : methods for sets.
+#maps : methods for maps.
+#aggregates : methods for creating aggregates on arrays or collections.
+#ids : methods for dealing with id attributes that might be repeated (for example, as a result of an iteration).
+
+    Selection Variable Expressions: *{...}：选择表达式：和${}在功能上是一样；
+    	补充：配合 th:object=&quot;${session.user}：
+   &lt;div th:object=&quot;${session.user}&quot;&gt;
+    &lt;p&gt;Name: &lt;span th:text=&quot;*{firstName}&quot;&gt;Sebastian&lt;/span&gt;.&lt;/p&gt;
+    &lt;p&gt;Surname: &lt;span th:text=&quot;*{lastName}&quot;&gt;Pepper&lt;/span&gt;.&lt;/p&gt;
+    &lt;p&gt;Nationality: &lt;span th:text=&quot;*{nationality}&quot;&gt;Saturn&lt;/span&gt;.&lt;/p&gt;
+    &lt;/div&gt;
+    
+    Message Expressions: #{...}：获取国际化内容
+    Link URL Expressions: @{...}：定义URL；
+    		@{/order/process(execId=${execId},execType='FAST')}
+    Fragment Expressions: ~{...}：片段引用表达式
+    		&lt;div th:insert=&quot;~{commons :: main}&quot;&gt;...&lt;/div&gt;
+    		
+Literals（字面量）
+      Text literals: 'one text' , 'Another one!' ,…
+      Number literals: 0 , 34 , 3.0 , 12.3 ,…
+      Boolean literals: true , false
+      Null literal: null
+      Literal tokens: one , sometext , main ,…
+Text operations:（文本操作）
+    String concatenation: +
+    Literal substitutions: |The name is ${name}|
+Arithmetic operations:（数学运算）
+    Binary operators: + , - , * , / , %
+    Minus sign (unary operator): -
+Boolean operations:（布尔运算）
+    Binary operators: and , or
+    Boolean negation (unary operator): ! , not
+Comparisons and equality:（比较运算）
+    Comparators: &gt; , &lt; , &gt;= , &lt;= ( gt , lt , ge , le )
+    Equality operators: == , != ( eq , ne )
+Conditional operators:条件运算（三元运算符）
+    If-then: (if) ? (then)
+    If-then-else: (if) ? (then) : (else)
+    Default: (value) ?: (defaultvalue)
+Special tokens:
+    No-Operation: _ 
+</code></pre>
+
+<h2 id="4-springmvc自动配置">4、SpringMVC自动配置</h2>
+
+<p><a href="https://docs.spring.io/spring-boot/docs/1.5.10.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications">https://docs.spring.io/spring-boot/docs/1.5.10.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications</a></p>
+
+<h3 id="1-spring-mvc-auto-configuration">1. Spring MVC auto-configuration</h3>
+
+<p>Spring Boot 自动配置好了SpringMVC</p>
+
+<p>以下是SpringBoot对SpringMVC的默认配置:<strong>==（WebMvcAutoConfiguration）==</strong></p>
+
+<ul>
+<li><p>Inclusion of <code>ContentNegotiatingViewResolver</code> and <code>BeanNameViewResolver</code> beans.</p>
+
+<ul>
+<li>自动配置了ViewResolver（视图解析器：根据方法的返回值得到视图对象（View），视图对象决定如何渲染（转发？重定向？））</li>
+<li>ContentNegotiatingViewResolver：组合所有的视图解析器的；</li>
+<li>==如何定制：我们可以自己给容器中添加一个视图解析器；自动的将其组合进来；==</li>
+</ul></li>
+
+<li><p>Support for serving static resources, including support for WebJars (see below).静态资源文件夹路径,webjars</p></li>
+
+<li><p>Static <code>index.html</code> support. 静态首页访问</p></li>
+
+<li><p>Custom <code>Favicon</code> support (see below).  favicon.ico</p></li>
+
+<li><p>自动注册了 of <code>Converter</code>, <code>GenericConverter</code>, <code>Formatter</code> beans.</p>
+
+<ul>
+<li>Converter：转换器；  public String hello(User user)：类型转换使用Converter</li>
+
+<li><p><code>Formatter</code>  格式化器；  2017.12.17===Date；</p>
+
+<pre><code class="language-java">		@Bean
+		@ConditionalOnProperty(prefix = &quot;spring.mvc&quot;, name = &quot;date-format&quot;)//在文件中配置日期格式化的规则
+		public Formatter&lt;Date&gt; dateFormatter() {
+			return new DateFormatter(this.mvcProperties.getDateFormat());//日期格式化组件
+		}
+</code></pre></li>
+</ul></li>
+</ul>
+
+<p>​   ==自己添加的格式化器转换器，我们只需要放在容器中即可==</p>
+
+<ul>
+<li><p>Support for <code>HttpMessageConverters</code> (see below).</p>
+
+<ul>
+<li><p>HttpMessageConverter：SpringMVC用来转换Http请求和响应的；User&mdash;Json；</p></li>
+
+<li><p><code>HttpMessageConverters</code> 是从容器中确定；获取所有的HttpMessageConverter；</p></li>
+</ul>
+
+<p>==自己给容器中添加HttpMessageConverter，只需要将自己的组件注册容器中（@Bean,@Component）==</p></li>
+
+<li><p>Automatic registration of <code>MessageCodesResolver</code> (see below).定义错误代码生成规则</p></li>
+
+<li><p>Automatic use of a <code>ConfigurableWebBindingInitializer</code> bean (see below).</p></li>
+</ul>
+
+<p>==我们可以配置一个ConfigurableWebBindingInitializer来替换默认的；（添加到容器）==</p>
+
+<pre><code>  初始化WebDataBinder；
+  请求数据=====JavaBean；
+</code></pre>
+
+<p><strong>org.springframework.boot.autoconfigure.web：web的所有自动场景；</strong></p>
+
+<p>If you want to keep Spring Boot MVC features, and you just want to add additional <a href="https://docs.spring.io/spring/docs/4.3.14.RELEASE/spring-framework-reference/htmlsingle#mvc">MVC configuration</a> (interceptors, formatters, view controllers etc.) you can add your own <code>@Configuration</code> class of type <code>WebMvcConfigurerAdapter</code>, but <strong>without</strong> <code>@EnableWebMvc</code>. If you wish to provide custom instances of <code>RequestMappingHandlerMapping</code>, <code>RequestMappingHandlerAdapter</code> or <code>ExceptionHandlerExceptionResolver</code> you can declare a <code>WebMvcRegistrationsAdapter</code> instance providing such components.</p>
+
+<p>If you want to take complete control of Spring MVC, you can add your own <code>@Configuration</code> annotated with <code>@EnableWebMvc</code>.</p>
+
+<h3 id="2-扩展springmvc">2、扩展SpringMVC</h3>
+
+<pre><code class="language-xml">    &lt;mvc:view-controller path=&quot;/hello&quot; view-name=&quot;success&quot;/&gt;
+    &lt;mvc:interceptors&gt;
+        &lt;mvc:interceptor&gt;
+            &lt;mvc:mapping path=&quot;/hello&quot;/&gt;
+            &lt;bean&gt;&lt;/bean&gt;
+        &lt;/mvc:interceptor&gt;
+    &lt;/mvc:interceptors&gt;
+</code></pre>
+
+<p><strong>==编写一个配置类（@Configuration），是WebMvcConfigurerAdapter类型；不能标注@EnableWebMvc==</strong>;</p>
+
+<p>既保留了所有的自动配置，也能用我们扩展的配置；</p>
+
+<pre><code class="language-java">//使用WebMvcConfigurerAdapter可以来扩展SpringMVC的功能
+@Configuration
+public class MyMvcConfig extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+       // super.addViewControllers(registry);
+        //浏览器发送 /atguigu 请求来到 success
+        registry.addViewController(&quot;/atguigu&quot;).setViewName(&quot;success&quot;);
+    }
+}
+</code></pre>
+
+<p>原理：</p>
+
+<p>​   1）、WebMvcAutoConfiguration是SpringMVC的自动配置类</p>
+
+<p>​   2）、在做其他自动配置时会导入；@Import(<strong>EnableWebMvcConfiguration</strong>.class)</p>
+
+<pre><code class="language-java">    @Configuration
+	public static class EnableWebMvcConfiguration extends DelegatingWebMvcConfiguration {
+      private final WebMvcConfigurerComposite configurers = new WebMvcConfigurerComposite();
+
+	 //从容器中获取所有的WebMvcConfigurer
+      @Autowired(required = false)
+      public void setConfigurers(List&lt;WebMvcConfigurer&gt; configurers) {
+          if (!CollectionUtils.isEmpty(configurers)) {
+              this.configurers.addWebMvcConfigurers(configurers);
+            	//一个参考实现；将所有的WebMvcConfigurer相关配置都来一起调用；  
+            	@Override
+             // public void addViewControllers(ViewControllerRegistry registry) {
+              //    for (WebMvcConfigurer delegate : this.delegates) {
+               //       delegate.addViewControllers(registry);
+               //   }
+              }
+          }
+	}
+</code></pre>
+
+<p>​   3）、容器中所有的WebMvcConfigurer都会一起起作用；</p>
+
+<p>​   4）、我们的配置类也会被调用；</p>
+
+<p>​   效果：SpringMVC的自动配置和我们的扩展配置都会起作用；</p>
+
+<h3 id="3-全面接管springmvc">3、全面接管SpringMVC；</h3>
+
+<p>SpringBoot对SpringMVC的自动配置不需要了，所有都是我们自己配置；所有的SpringMVC的自动配置都失效了</p>
+
+<p><strong>我们需要在配置类中添加@EnableWebMvc即可；</strong></p>
+
+<pre><code class="language-java">//使用WebMvcConfigurerAdapter可以来扩展SpringMVC的功能
+@EnableWebMvc
+@Configuration
+public class MyMvcConfig extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+       // super.addViewControllers(registry);
+        //浏览器发送 /atguigu 请求来到 success
+        registry.addViewController(&quot;/atguigu&quot;).setViewName(&quot;success&quot;);
+    }
+}
+</code></pre>
+
+<p>原理：</p>
+
+<p>为什么@EnableWebMvc自动配置就失效了；</p>
+
+<p>1）@EnableWebMvc的核心</p>
+
+<pre><code class="language-java">@Import(DelegatingWebMvcConfiguration.class)
+public @interface EnableWebMvc {
+</code></pre>
+
+<p>2）、</p>
+
+<pre><code class="language-java">@Configuration
+public class DelegatingWebMvcConfiguration extends WebMvcConfigurationSupport {
+</code></pre>
+
+<p>3）、</p>
+
+<pre><code class="language-java">@Configuration
+@ConditionalOnWebApplication
+@ConditionalOnClass({ Servlet.class, DispatcherServlet.class,
+		WebMvcConfigurerAdapter.class })
+//容器中没有这个组件的时候，这个自动配置类才生效
+@ConditionalOnMissingBean(WebMvcConfigurationSupport.class)
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 10)
+@AutoConfigureAfter({ DispatcherServletAutoConfiguration.class,
+		ValidationAutoConfiguration.class })
+public class WebMvcAutoConfiguration {
+</code></pre>
+
+<p>4）、@EnableWebMvc将WebMvcConfigurationSupport组件导入进来</p>
+
+<p>5）、导入的WebMvcConfigurationSupport只是SpringMVC最基本的功能</p>
+
+
+    
+  </section>
+  <div class="divider my-gap"></div>
+  <footer class="col-12 d-inline-block">
+    <span class="float-left">
+      <button class="btn btn-action btn-accent shadow s-circle" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
+    </span>
+    <span class="float-right">
+      <div class="text-right float-left mx-2">
+        <span class="text-dark">rui</span><br>
+        <span class="text-gray">黑丑</span>
+      </div>
+      <figure class="avatar avatar-lg">
+        <img id="profile">
+      </figure>
+    </span>
+  </footer>
+</article>
+
+    <footer class="container p-centered text-center my-gap">
+  
+    <div class="container">
+
+  
+    <a class="symbol" href="mailto:dongr12138@gmail.com" target="_blank"><i class="fas fa-envelope"></i>
+  
+  </a>
+
+  
+    <a class="symbol" href="https://github.com/dongr12138/dongr12138.github.io/" target="_blank"><i class="fab fa-github"></i>
+  
+  </a>
+
+</div>
+
+  
+
+  <small class="text-gray">
+  
+    © Copyright 2019 rui
+  
+  </small>
+</footer>
+
+  </div>
+  </section>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://dongr12138.github.io/js/main.js"></script>
+<script src="https://dongr12138.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
