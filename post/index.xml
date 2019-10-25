@@ -6,10 +6,26 @@
     <description>Recent content in Posts on Maybe...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 24 Oct 2019 23:03:54 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 25 Oct 2019 21:15:29 +0800</lastBuildDate>
     
 	<atom:link href="https://dongr12138.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>1025-RestfulCRUD（1）</title>
+      <link>https://dongr12138.github.io/post/1025/</link>
+      <pubDate>Fri, 25 Oct 2019 21:15:29 +0800</pubDate>
+      
+      <guid>https://dongr12138.github.io/post/1025/</guid>
+      <description>很奇怪，我们不屑与他人为伍，却害怕自己与众不同。 -保罗·柯艾略-
+RestfulCRUD 1）、默认访问首页 //使用WebMvcConfigurerAdapter可以来扩展SpringMVC的功能 //@EnableWebMvc 不要接管SpringMVC @Configuration public class MyMvcConfig extends WebMvcConfigurerAdapter { @Override public void addViewControllers(ViewControllerRegistry registry) { // super.addViewControllers(registry); //浏览器发送 /atguigu 请求来到 success registry.addViewController(&amp;quot;/atguigu&amp;quot;).setViewName(&amp;quot;success&amp;quot;); } //所有的WebMvcConfigurerAdapter组件都会一起起作用 @Bean //将组件注册在容器 public WebMvcConfigurerAdapter webMvcConfigurerAdapter(){ WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() { @Override public void addViewControllers(ViewControllerRegistry registry) { registry.addViewController(&amp;quot;/&amp;quot;).setViewName(&amp;quot;login&amp;quot;); registry.addViewController(&amp;quot;/index.html&amp;quot;).setViewName(&amp;quot;login&amp;quot;); } }; return adapter; } }  2）、国际化 1）、编写国际化配置文件；
+2）、使用ResourceBundleMessageSource管理国际化资源文件
+3）、在页面使用fmt:message取出国际化内容
+步骤：
+1）、编写国际化配置文件，抽取页面需要显示的国际化消息
+2）、SpringBoot自动配置好了管理国际化资源文件的组件；
+@ConfigurationProperties(prefix = &amp;ldquo;spring.messages&amp;rdquo;) public class MessageSourceAutoConfiguration {</description>
+    </item>
     
     <item>
       <title>1024-Springboot Web开发（2）</title>
@@ -17,7 +33,17 @@
       <pubDate>Thu, 24 Oct 2019 23:03:54 +0800</pubDate>
       
       <guid>https://dongr12138.github.io/post/1024/</guid>
-      <description></description>
+      <description>无论头上是怎样的天空，我准备承受任何风暴。 -拜伦-
+4、SpringMVC自动配置 https://docs.spring.io/spring-boot/docs/1.5.10.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications
+1. Spring MVC auto-configuration Spring Boot 自动配置好了SpringMVC
+以下是SpringBoot对SpringMVC的默认配置:==（WebMvcAutoConfiguration）==
+ Inclusion of ContentNegotiatingViewResolver and BeanNameViewResolver beans.
+ 自动配置了ViewResolver（视图解析器：根据方法的返回值得到视图对象（View），视图对象决定如何渲染（转发？重定向？）） ContentNegotiatingViewResolver：组合所有的视图解析器的； ==如何定制：我们可以自己给容器中添加一个视图解析器；自动的将其组合进来；==  Support for serving static resources, including support for WebJars (see below).静态资源文件夹路径,webjars
+ Static index.html support. 静态首页访问
+ Custom Favicon support (see below). favicon.ico
+ 自动注册了 of Converter, GenericConverter, Formatter beans.
+ Converter：转换器； public String hello(User user)：类型转换使用Converter Formatter 格式化器； 2017.12.17===Date；
+@Bean @ConditionalOnProperty(prefix = &amp;quot;spring.mvc&amp;quot;, name = &amp;quot;date-format&amp;quot;)//在文件中配置日期格式化的规则 public Formatter&amp;lt;Date&amp;gt; dateFormatter() { return new DateFormatter(this.</description>
     </item>
     
     <item>
@@ -26,13 +52,14 @@
       <pubDate>Wed, 23 Oct 2019 22:56:43 +0800</pubDate>
       
       <guid>https://dongr12138.github.io/post/1023/</guid>
-      <description>Web开发 1.简介 使用SpringBoot；
+      <description>爱欲于人，犹如执炬，逆风而行，必有烧手之患。 ——《四十二章经》
+Web开发 1.简介 使用SpringBoot；
 1）、创建SpringBoot应用，选中我们需要的模块；
 2）、SpringBoot已经默认将这些场景配置好了，只需要在配置文件中指定少量配置就可以运行起来
 3）、自己编写业务代码
 自动配置原理？
 这个场景SpringBoot帮我们配置了什么？能不能修改？能修改哪些配置？能不能扩展？xxx
-xxxxAutoConfiguration：帮我们给容器中自动配置组件； xxxxProperties:配置类来封装配置文件的内容；  2.SpringBoot对静态资源的映射规则 @ConfigurationProperties(prefix = &amp;quot;spring.resources&amp;quot;, ignoreUnknownFields = false) public class ResourceProperties implements ResourceLoaderAware { //可以设置和静态资源有关的参数，缓存时间等  WebMvcAuotConfiguration： @Override public void addResourceHandlers(ResourceHandlerRegistry registry) { if (!this.resourceProperties.isAddMappings()) { logger.debug(&amp;quot;Default resource handling disabled&amp;quot;); return; } Integer cachePeriod = this.resourceProperties.getCachePeriod(); if (!registry.hasMappingForPattern(&amp;quot;/webjars/**&amp;quot;)) { customizeResourceHandlerRegistration( registry.addResourceHandler(&amp;quot;/webjars/**&amp;quot;) .addResourceLocations( &amp;quot;classpath:/META-INF/resources/webjars/&amp;quot;) .setCachePeriod(cachePeriod)); } String staticPathPattern = this.mvcProperties.getStaticPathPattern(); //静态资源文件夹映射 if (!registry.hasMappingForPattern(staticPathPattern)) { customizeResourceHandlerRegistration( registry.addResourceHandler(staticPathPattern) .addResourceLocations( this.resourceProperties.getStaticLocations()) .setCachePeriod(cachePeriod)); } } //配置欢迎页映射 @Bean public WelcomePageHandlerMapping welcomePageHandlerMapping( ResourceProperties resourceProperties) { return new WelcomePageHandlerMapping(resourceProperties.</description>
+xxxxAutoConfiguration：帮我们给容器中自动配置组件； xxxxProperties:配置类来封装配置文件的内容；  2.SpringBoot对静态资源的映射规则 @ConfigurationProperties(prefix = &amp;quot;spring.resources&amp;quot;, ignoreUnknownFields = false) public class ResourceProperties implements ResourceLoaderAware { //可以设置和静态资源有关的参数，缓存时间等  WebMvcAuotConfiguration： @Override public void addResourceHandlers(ResourceHandlerRegistry registry) { if (!this.resourceProperties.isAddMappings()) { logger.debug(&amp;quot;Default resource handling disabled&amp;quot;); return; } Integer cachePeriod = this.resourceProperties.getCachePeriod(); if (!registry.hasMappingForPattern(&amp;quot;/webjars/**&amp;quot;)) { customizeResourceHandlerRegistration( registry.addResourceHandler(&amp;quot;/webjars/**&amp;quot;) .addResourceLocations( &amp;quot;classpath:/META-INF/resources/webjars/&amp;quot;) .setCachePeriod(cachePeriod)); } String staticPathPattern = this.mvcProperties.getStaticPathPattern(); //静态资源文件夹映射 if (!registry.hasMappingForPattern(staticPathPattern)) { customizeResourceHandlerRegistration( registry.addResourceHandler(staticPathPattern) .addResourceLocations( this.resourceProperties.getStaticLocations()) .</description>
     </item>
     
     <item>

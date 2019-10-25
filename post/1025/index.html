@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="rui">
+  <meta name="description" content="我不接受批评，你如果说我，我就骂你">
+  <meta name="generator" content="Hugo 0.58.3" />
+
+  <title>1025-RestfulCRUD（1） &middot; Maybe...</title>
+
+  <link rel="shortcut icon" href="https://dongr12138.github.io/images/favicon.ico">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/spectre.min.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/style.css">
+  <link rel="stylesheet" href="https://dongr12138.github.io/css/highlight.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+  
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+  
+
+  
+    <link href="" rel="alternate" type="application/rss+xml" title="Maybe..." />
+  
+
+  
+  <meta property="og:title" content="1025-RestfulCRUD（1）" />
+<meta property="og:description" content="很奇怪，我们不屑与他人为伍，却害怕自己与众不同。 -保罗·柯艾略-
+RestfulCRUD 1）、默认访问首页 //使用WebMvcConfigurerAdapter可以来扩展SpringMVC的功能 //@EnableWebMvc 不要接管SpringMVC @Configuration public class MyMvcConfig extends WebMvcConfigurerAdapter { @Override public void addViewControllers(ViewControllerRegistry registry) { // super.addViewControllers(registry); //浏览器发送 /atguigu 请求来到 success registry.addViewController(&quot;/atguigu&quot;).setViewName(&quot;success&quot;); } //所有的WebMvcConfigurerAdapter组件都会一起起作用 @Bean //将组件注册在容器 public WebMvcConfigurerAdapter webMvcConfigurerAdapter(){ WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() { @Override public void addViewControllers(ViewControllerRegistry registry) { registry.addViewController(&quot;/&quot;).setViewName(&quot;login&quot;); registry.addViewController(&quot;/index.html&quot;).setViewName(&quot;login&quot;); } }; return adapter; } }  2）、国际化 1）、编写国际化配置文件；
+2）、使用ResourceBundleMessageSource管理国际化资源文件
+3）、在页面使用fmt:message取出国际化内容
+步骤：
+1）、编写国际化配置文件，抽取页面需要显示的国际化消息
+2）、SpringBoot自动配置好了管理国际化资源文件的组件；
+@ConfigurationProperties(prefix = &ldquo;spring.messages&rdquo;) public class MessageSourceAutoConfiguration {" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://dongr12138.github.io/post/1025/" />
+<meta property="article:published_time" content="2019-10-25T21:15:29+08:00" />
+<meta property="article:modified_time" content="2019-10-25T21:15:29+08:00" />
+
+  
+  <meta itemprop="name" content="1025-RestfulCRUD（1）">
+<meta itemprop="description" content="很奇怪，我们不屑与他人为伍，却害怕自己与众不同。 -保罗·柯艾略-
+RestfulCRUD 1）、默认访问首页 //使用WebMvcConfigurerAdapter可以来扩展SpringMVC的功能 //@EnableWebMvc 不要接管SpringMVC @Configuration public class MyMvcConfig extends WebMvcConfigurerAdapter { @Override public void addViewControllers(ViewControllerRegistry registry) { // super.addViewControllers(registry); //浏览器发送 /atguigu 请求来到 success registry.addViewController(&quot;/atguigu&quot;).setViewName(&quot;success&quot;); } //所有的WebMvcConfigurerAdapter组件都会一起起作用 @Bean //将组件注册在容器 public WebMvcConfigurerAdapter webMvcConfigurerAdapter(){ WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() { @Override public void addViewControllers(ViewControllerRegistry registry) { registry.addViewController(&quot;/&quot;).setViewName(&quot;login&quot;); registry.addViewController(&quot;/index.html&quot;).setViewName(&quot;login&quot;); } }; return adapter; } }  2）、国际化 1）、编写国际化配置文件；
+2）、使用ResourceBundleMessageSource管理国际化资源文件
+3）、在页面使用fmt:message取出国际化内容
+步骤：
+1）、编写国际化配置文件，抽取页面需要显示的国际化消息
+2）、SpringBoot自动配置好了管理国际化资源文件的组件；
+@ConfigurationProperties(prefix = &ldquo;spring.messages&rdquo;) public class MessageSourceAutoConfiguration {">
+
+
+<meta itemprop="datePublished" content="2019-10-25T21:15:29&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-25T21:15:29&#43;08:00" />
+<meta itemprop="wordCount" content="453">
+
+
+
+<meta itemprop="keywords" content="" />
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="1025-RestfulCRUD（1）"/>
+<meta name="twitter:description" content="很奇怪，我们不屑与他人为伍，却害怕自己与众不同。 -保罗·柯艾略-
+RestfulCRUD 1）、默认访问首页 //使用WebMvcConfigurerAdapter可以来扩展SpringMVC的功能 //@EnableWebMvc 不要接管SpringMVC @Configuration public class MyMvcConfig extends WebMvcConfigurerAdapter { @Override public void addViewControllers(ViewControllerRegistry registry) { // super.addViewControllers(registry); //浏览器发送 /atguigu 请求来到 success registry.addViewController(&quot;/atguigu&quot;).setViewName(&quot;success&quot;); } //所有的WebMvcConfigurerAdapter组件都会一起起作用 @Bean //将组件注册在容器 public WebMvcConfigurerAdapter webMvcConfigurerAdapter(){ WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() { @Override public void addViewControllers(ViewControllerRegistry registry) { registry.addViewController(&quot;/&quot;).setViewName(&quot;login&quot;); registry.addViewController(&quot;/index.html&quot;).setViewName(&quot;login&quot;); } }; return adapter; } }  2）、国际化 1）、编写国际化配置文件；
+2）、使用ResourceBundleMessageSource管理国际化资源文件
+3）、在页面使用fmt:message取出国际化内容
+步骤：
+1）、编写国际化配置文件，抽取页面需要显示的国际化消息
+2）、SpringBoot自动配置好了管理国际化资源文件的组件；
+@ConfigurationProperties(prefix = &ldquo;spring.messages&rdquo;) public class MessageSourceAutoConfiguration {"/>
+
+</head>
+
+<body onload="setPixelFont()">
+  <div class="container p-fixed" style="z-index:3">
+  <nav class="navbar m-2 p-2 s-rounded shadow bg-primary">
+    <section class="navbar-section">
+      <button class="btn btn-action btn-primary s-circle text-gray" id="pixelfont-toggle"><i class="fas fa-robot fa-lg"></i></button>
+    </section>
+    <section class="navbar-section">
+      
+        <a class="btn btn-primary" href='https://dongr12138.github.io/'>Home</a>
+      
+
+      
+
+      
+      <a class="btn btn-accent" href="" target="_blank"><i class="fas fa-rss fa-lg"></i></a>
+      
+    </section>
+  </nav>
+</div>
+
+  <section class="container grid-md">
+  <div class="columns">
+    
+    
+<article class="container p-centered mt-space">
+  <header>
+    <h2 class="text-center">1025-RestfulCRUD（1）</h2>
+    <h6 class="text-gray text-italic"></h6>
+  </header>
+  <section class="my-gap">
+    
+
+<p>很奇怪，我们不屑与他人为伍，却害怕自己与众不同。        -保罗·柯艾略-</p>
+
+<h2 id="restfulcrud">RestfulCRUD</h2>
+
+<h3 id="1-默认访问首页">1）、默认访问首页</h3>
+
+<pre><code class="language-java">//使用WebMvcConfigurerAdapter可以来扩展SpringMVC的功能
+//@EnableWebMvc   不要接管SpringMVC
+@Configuration
+public class MyMvcConfig extends WebMvcConfigurerAdapter {
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+       // super.addViewControllers(registry);
+        //浏览器发送 /atguigu 请求来到 success
+        registry.addViewController(&quot;/atguigu&quot;).setViewName(&quot;success&quot;);
+    }
+
+    //所有的WebMvcConfigurerAdapter组件都会一起起作用
+    @Bean //将组件注册在容器
+    public WebMvcConfigurerAdapter webMvcConfigurerAdapter(){
+        WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() {
+            @Override
+            public void addViewControllers(ViewControllerRegistry registry) {
+                registry.addViewController(&quot;/&quot;).setViewName(&quot;login&quot;);
+                registry.addViewController(&quot;/index.html&quot;).setViewName(&quot;login&quot;);
+            }
+        };
+        return adapter;
+    }
+}
+
+</code></pre>
+
+<h3 id="2-国际化">2）、国际化</h3>
+
+<p><strong>1）、编写国际化配置文件；</strong></p>
+
+<p>2）、使用ResourceBundleMessageSource管理国际化资源文件</p>
+
+<p>3）、在页面使用fmt:message取出国际化内容</p>
+
+<p>步骤：</p>
+
+<p>1）、编写国际化配置文件，抽取页面需要显示的国际化消息</p>
+
+<p>2）、SpringBoot自动配置好了管理国际化资源文件的组件；</p>
+
+<p>@ConfigurationProperties(prefix = &ldquo;spring.messages&rdquo;)
+public class MessageSourceAutoConfiguration {</p>
+
+<pre><code class="language-java">/**
+ * Comma-separated list of basenames (essentially a fully-qualified classpath
+ * location), each following the ResourceBundle convention with relaxed support for
+ * slash based locations. If it doesn't contain a package qualifier (such as
+ * &quot;org.mypackage&quot;), it will be resolved from the classpath root.
+ */
+private String basename = &quot;messages&quot;;  
+//我们的配置文件可以直接放在类路径下叫messages.properties；
+
+@Bean
+public MessageSource messageSource() {
+	ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+	if (StringUtils.hasText(this.basename)) {
+        //设置国际化资源文件的基础名（去掉语言国家代码的）
+		messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(
+				StringUtils.trimAllWhitespace(this.basename)));
+	}
+	if (this.encoding != null) {
+		messageSource.setDefaultEncoding(this.encoding.name());
+	}
+	messageSource.setFallbackToSystemLocale(this.fallbackToSystemLocale);
+	messageSource.setCacheSeconds(this.cacheSeconds);
+	messageSource.setAlwaysUseMessageFormat(this.alwaysUseMessageFormat);
+	return messageSource;
+}
+</code></pre>
+
+<p>3）、去页面获取国际化的值；</p>
+
+<p>&lt;!DOCTYPE html&gt;
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Signin Template for Bootstrap</title>
+        <!-- Bootstrap core CSS -->
+        <link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="asserts/css/signin.css" th:href="@{/asserts/css/signin.css}" rel="stylesheet">
+    </head></p>
+
+<pre><code class="language-html">&lt;body class=&quot;text-center&quot;&gt;
+	&lt;form class=&quot;form-signin&quot; action=&quot;dashboard.html&quot;&gt;
+		&lt;img class=&quot;mb-4&quot; th:src=&quot;@{/asserts/img/bootstrap-solid.svg}&quot; src=&quot;asserts/img/bootstrap-solid.svg&quot; alt=&quot;&quot; width=&quot;72&quot; height=&quot;72&quot;&gt;
+		&lt;h1 class=&quot;h3 mb-3 font-weight-normal&quot; th:text=&quot;#{login.tip}&quot;&gt;Please sign in&lt;/h1&gt;
+		&lt;label class=&quot;sr-only&quot; th:text=&quot;#{login.username}&quot;&gt;Username&lt;/label&gt;
+		&lt;input type=&quot;text&quot; class=&quot;form-control&quot; placeholder=&quot;Username&quot; th:placeholder=&quot;#{login.username}&quot; required=&quot;&quot; autofocus=&quot;&quot;&gt;
+		&lt;label class=&quot;sr-only&quot; th:text=&quot;#{login.password}&quot;&gt;Password&lt;/label&gt;
+		&lt;input type=&quot;password&quot; class=&quot;form-control&quot; placeholder=&quot;Password&quot; th:placeholder=&quot;#{login.password}&quot; required=&quot;&quot;&gt;
+		&lt;div class=&quot;checkbox mb-3&quot;&gt;
+			&lt;label&gt;
+      		&lt;input type=&quot;checkbox&quot; value=&quot;remember-me&quot;/&gt; [[#{login.remember}]]
+    &lt;/label&gt;
+		&lt;/div&gt;
+		&lt;button class=&quot;btn btn-lg btn-primary btn-block&quot; type=&quot;submit&quot; th:text=&quot;#{login.btn}&quot;&gt;Sign in&lt;/button&gt;
+		&lt;p class=&quot;mt-5 mb-3 text-muted&quot;&gt;© 2017-2018&lt;/p&gt;
+		&lt;a class=&quot;btn btn-sm&quot;&gt;中文&lt;/a&gt;
+		&lt;a class=&quot;btn btn-sm&quot;&gt;English&lt;/a&gt;
+	&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>效果：根据浏览器语言设置的信息切换了国际化；</p>
+
+<p>原理：</p>
+
+<p>​   国际化Locale（区域信息对象）；LocaleResolver（获取区域信息对象）；</p>
+
+<pre><code class="language-java">		@Bean
+		@ConditionalOnMissingBean
+		@ConditionalOnProperty(prefix = &quot;spring.mvc&quot;, name = &quot;locale&quot;)
+		public LocaleResolver localeResolver() {
+			if (this.mvcProperties
+					.getLocaleResolver() == WebMvcProperties.LocaleResolver.FIXED) {
+				return new FixedLocaleResolver(this.mvcProperties.getLocale());
+			}
+			AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+			localeResolver.setDefaultLocale(this.mvcProperties.getLocale());
+			return localeResolver;
+		}
+默认的就是根据请求头带来的区域信息获取Locale进行国际化
+</code></pre>
+
+<p>4）、点击链接切换国际化</p>
+
+<pre><code class="language-java">/**
+ * 可以在连接上携带区域信息
+ */
+public class MyLocaleResolver implements LocaleResolver {
+    
+    @Override
+    public Locale resolveLocale(HttpServletRequest request) {
+        String l = request.getParameter(&quot;l&quot;);
+        Locale locale = Locale.getDefault();
+        if(!StringUtils.isEmpty(l)){
+            String[] split = l.split(&quot;_&quot;);
+            locale = new Locale(split[0],split[1]);
+        }
+        return locale;
+    }
+
+    @Override
+    public void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) {
+
+    }
+}
+
+
+ @Bean
+    public LocaleResolver localeResolver(){
+        return new MyLocaleResolver();
+    }
+}
+
+
+</code></pre>
+
+<h3 id="3-登陆">3）、登陆</h3>
+
+<p>开发期间模板引擎页面修改以后，要实时生效</p>
+
+<p>1）、禁用模板引擎的缓存</p>
+
+<pre><code># 禁用缓存
+spring.thymeleaf.cache=false 
+</code></pre>
+
+<p>2）、页面修改完成以后ctrl+f9：重新编译；</p>
+
+<p>登陆错误消息的显示</p>
+
+<pre><code class="language-html">&lt;p style=&quot;color: red&quot; th:text=&quot;${msg}&quot; th:if=&quot;${not #strings.isEmpty(msg)}&quot;&gt;&lt;/p&gt;
+</code></pre>
+
+<h3 id="4-拦截器进行登陆检查">4）、拦截器进行登陆检查</h3>
+
+<p>拦截器</p>
+
+<pre><code class="language-java">/**
+ * 登陆检查，
+ */
+public class LoginHandlerInterceptor implements HandlerInterceptor {
+    //目标方法执行之前
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        Object user = request.getSession().getAttribute(&quot;loginUser&quot;);
+        if(user == null){
+            //未登陆，返回登陆页面
+            request.setAttribute(&quot;msg&quot;,&quot;没有权限请先登陆&quot;);
+            request.getRequestDispatcher(&quot;/index.html&quot;).forward(request,response);
+            return false;
+        }else{
+            //已登陆，放行请求
+            return true;
+        }
+
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+
+    }
+}
+
+</code></pre>
+
+<p>注册拦截器</p>
+
+<pre><code class="language-java">  //所有的WebMvcConfigurerAdapter组件都会一起起作用
+    @Bean //将组件注册在容器
+    public WebMvcConfigurerAdapter webMvcConfigurerAdapter(){
+        WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() {
+            @Override
+            public void addViewControllers(ViewControllerRegistry registry) {
+                registry.addViewController(&quot;/&quot;).setViewName(&quot;login&quot;);
+                registry.addViewController(&quot;/index.html&quot;).setViewName(&quot;login&quot;);
+                registry.addViewController(&quot;/main.html&quot;).setViewName(&quot;dashboard&quot;);
+            }
+
+            //注册拦截器
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                //super.addInterceptors(registry);
+                //静态资源；  *.css , *.js
+                //SpringBoot已经做好了静态资源映射
+                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns(&quot;/**&quot;)
+                        .excludePathPatterns(&quot;/index.html&quot;,&quot;/&quot;,&quot;/user/login&quot;);
+            }
+        };
+        return adapter;
+    }
+</code></pre>
+
+
+    
+  </section>
+  <div class="divider my-gap"></div>
+  <footer class="col-12 d-inline-block">
+    <span class="float-left">
+      <button class="btn btn-action btn-accent shadow s-circle" onclick="window.history.back();"><i class="fas fa-arrow-left"></i></button>
+    </span>
+    <span class="float-right">
+      <div class="text-right float-left mx-2">
+        <span class="text-dark">rui</span><br>
+        <span class="text-gray">黑丑</span>
+      </div>
+      <figure class="avatar avatar-lg">
+        <img id="profile">
+      </figure>
+    </span>
+  </footer>
+</article>
+
+    <footer class="container p-centered text-center my-gap">
+  
+    <div class="container">
+
+  
+    <a class="symbol" href="mailto:dongr12138@gmail.com" target="_blank"><i class="fas fa-envelope"></i>
+  
+  </a>
+
+  
+    <a class="symbol" href="https://github.com/dongr12138/dongr12138.github.io/" target="_blank"><i class="fab fa-github"></i>
+  
+  </a>
+
+</div>
+
+  
+
+  <small class="text-gray">
+  
+    © Copyright 2019 rui
+  
+  </small>
+</footer>
+
+  </div>
+  </section>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://dongr12138.github.io/js/main.js"></script>
+<script src="https://dongr12138.github.io/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
