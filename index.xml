@@ -6,10 +6,24 @@
     <description>Recent content on Maybe...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Oct 2019 21:15:29 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 26 Oct 2019 22:53:00 +0800</lastBuildDate>
     
 	<atom:link href="https://dongr12138.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>1026-RestfulCRUD（2）</title>
+      <link>https://dongr12138.github.io/post/1026/</link>
+      <pubDate>Sat, 26 Oct 2019 22:53:00 +0800</pubDate>
+      
+      <guid>https://dongr12138.github.io/post/1026/</guid>
+      <description>你是什么人便会遇上什么人； 你是什么人便会选择什么人。 总是挂在嘴上的人生，就是你的人生， 人总是很容易被自己说出的话所催眠。 我多怕你总是挂在嘴上的许多抱怨， 将会成为你所有的人生。 -竹久梦二《出帆》-
+5）、CRUD-员工列表 实验要求：
+1）、RestfulCRUD：CRUD满足Rest风格；
+URI： /资源名称/资源标识 HTTP请求方式区分对资源CRUD操作
+    普通CRUD（uri来区分操作） RestfulCRUD     查询 getEmp emp&amp;mdash;GET   添加 addEmp?xxx emp&amp;mdash;POST   修改 updateEmp?id=xxx&amp;amp;xxx=xx emp/{id}&amp;mdash;PUT   删除 deleteEmp?id=1 emp/{id}&amp;mdash;DELETE    2）、实验的请求架构;
+   实验功能 请求URI 请求方式     查询所有员工 emps GET   查询某个员工(来到修改页面) emp/1 GET   来到添加页面 emp GET   添加员工 emp POST   来到修改页面（查出员工进行信息回显） emp/1 GET   修改员工 emp PUT   删除员工 emp/1 DELETE    3）、员工列表：</description>
+    </item>
     
     <item>
       <title>1025-RestfulCRUD（1）</title>
