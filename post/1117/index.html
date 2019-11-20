@@ -8,7 +8,7 @@
   <meta name="description" content="我不接受批评，你如果说我，我就骂你">
   <meta name="generator" content="Hugo 0.58.3" />
 
-  <title>1117-04面试题 &middot; Maybe...</title>
+  <title>1117-04面试题（20岁生日 有你们在真好） &middot; Maybe...</title>
 
   <link rel="shortcut icon" href="https://dongr12138.github.io/images/favicon.ico">
   <link rel="stylesheet" href="https://dongr12138.github.io/css/spectre.min.css">
@@ -24,7 +24,7 @@
   
 
   
-  <meta property="og:title" content="1117-04面试题" />
+  <meta property="og:title" content="1117-04面试题（20岁生日 有你们在真好）" />
 <meta property="og:description" content="【04期】分库分表之后，id 主键如何处理？ 面试官心理分析 其实这是分库分表之后你必然要面对的一个问题，就是 id 咋生成？因为要是分成多个表之后，每个表都是从 1 开始累加，那肯定不对啊，需要一个全局唯一的 id 来支持。所以这都是你实际生产环境中必须考虑的问题。
 面试题剖析 基于数据库的实现方案 数据库自增 id 这个就是说你的系统里每次得到一个 id，都是往一个库的一个表里插入一条没什么业务含义的数据，然后获取一个数据库自增的一个 id。拿到这个 id 之后再往对应的分库分表里去写入。
 这个方案的好处就是方便简单，谁都会用；缺点就是单库生成自增 id，要是高并发的话，就会有瓶颈的；如果你硬是要改进一下，那么就专门开一个服务出来，这个服务每次就拿到当前 id 最大值，然后自己递增几个 id，一次性返回一批 id，然后再把当前最大 id 值修改成递增几个 id 之后的一个值；但是无论如何都是基于单个数据库。
@@ -41,7 +41,7 @@ UUID.randomUUID().toString().replace(“-”, “”) -&gt; sfsdf23423rr234sfdaf
 <meta property="article:modified_time" content="2019-11-17T17:48:11+08:00" />
 
   
-  <meta itemprop="name" content="1117-04面试题">
+  <meta itemprop="name" content="1117-04面试题（20岁生日 有你们在真好）">
 <meta itemprop="description" content="【04期】分库分表之后，id 主键如何处理？ 面试官心理分析 其实这是分库分表之后你必然要面对的一个问题，就是 id 咋生成？因为要是分成多个表之后，每个表都是从 1 开始累加，那肯定不对啊，需要一个全局唯一的 id 来支持。所以这都是你实际生产环境中必须考虑的问题。
 面试题剖析 基于数据库的实现方案 数据库自增 id 这个就是说你的系统里每次得到一个 id，都是往一个库的一个表里插入一条没什么业务含义的数据，然后获取一个数据库自增的一个 id。拿到这个 id 之后再往对应的分库分表里去写入。
 这个方案的好处就是方便简单，谁都会用；缺点就是单库生成自增 id，要是高并发的话，就会有瓶颈的；如果你硬是要改进一下，那么就专门开一个服务出来，这个服务每次就拿到当前 id 最大值，然后自己递增几个 id，一次性返回一批 id，然后再把当前最大 id 值修改成递增几个 id 之后的一个值；但是无论如何都是基于单个数据库。
@@ -63,7 +63,7 @@ UUID.randomUUID().toString().replace(“-”, “”) -&gt; sfsdf23423rr234sfdaf
 <meta itemprop="keywords" content="" />
 
   <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="1117-04面试题"/>
+<meta name="twitter:title" content="1117-04面试题（20岁生日 有你们在真好）"/>
 <meta name="twitter:description" content="【04期】分库分表之后，id 主键如何处理？ 面试官心理分析 其实这是分库分表之后你必然要面对的一个问题，就是 id 咋生成？因为要是分成多个表之后，每个表都是从 1 开始累加，那肯定不对啊，需要一个全局唯一的 id 来支持。所以这都是你实际生产环境中必须考虑的问题。
 面试题剖析 基于数据库的实现方案 数据库自增 id 这个就是说你的系统里每次得到一个 id，都是往一个库的一个表里插入一条没什么业务含义的数据，然后获取一个数据库自增的一个 id。拿到这个 id 之后再往对应的分库分表里去写入。
 这个方案的好处就是方便简单，谁都会用；缺点就是单库生成自增 id，要是高并发的话，就会有瓶颈的；如果你硬是要改进一下，那么就专门开一个服务出来，这个服务每次就拿到当前 id 最大值，然后自己递增几个 id，一次性返回一批 id，然后再把当前最大 id 值修改成递增几个 id 之后的一个值；但是无论如何都是基于单个数据库。
@@ -103,7 +103,7 @@ UUID.randomUUID().toString().replace(“-”, “”) -&gt; sfsdf23423rr234sfdaf
     
 <article class="container p-centered mt-space">
   <header>
-    <h2 class="text-center">1117-04面试题</h2>
+    <h2 class="text-center">1117-04面试题（20岁生日 有你们在真好）</h2>
     <h6 class="text-gray text-italic"></h6>
   </header>
   <section class="my-gap">

@@ -6,13 +6,64 @@
     <description>Recent content in Posts on Maybe...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Nov 2019 17:48:11 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 20 Nov 2019 17:07:27 +0800</lastBuildDate>
     
 	<atom:link href="https://dongr12138.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>1117-04面试题</title>
+      <title>1120-07面试题</title>
+      <link>https://dongr12138.github.io/post/1120/</link>
+      <pubDate>Wed, 20 Nov 2019 17:07:27 +0800</pubDate>
+      
+      <guid>https://dongr12138.github.io/post/1120/</guid>
+      <description>【07期】Redis中是如何实现分布式锁的？ 分布式锁常见的三种实现方式：
+ 数据库乐观锁； 基于Redis的分布式锁； 基于ZooKeeper的分布式锁。  本地面试考点是，你对Redis使用熟悉吗？Redis中是如何实现分布式锁的。
+要点 Redis要实现分布式锁，以下条件应该得到满足
+互斥性
+ 在任意时刻，只有一个客户端能持有锁。  不能死锁
+ 客户端在持有锁的期间崩溃而没有主动解锁，也能保证后续其他客户端能加锁。  容错性
+ 只要大部分的Redis节点正常运行，客户端就可以加锁和解锁。  实现 可以直接通过 set key value px milliseconds nx 命令实现加锁， 通过Lua脚本实现解锁。
+//获取锁（unique_value可以是UUID等） SET resource_name unique_value NX PX 30000 //释放锁（lua脚本中，一定要比较value，防止误解锁） if redis.call(&amp;quot;get&amp;quot;,KEYS[1]) == ARGV[1] then return redis.call(&amp;quot;del&amp;quot;,KEYS[1]) else return 0 end  代码解释
+ set 命令要用 set key value px milliseconds nx，替代 setnx + expire 需要分两次执行命令的方式，保证了原子性， value 要具有唯一性，可以使用UUID.randomUUID().toString()方法生成，用来标识这把锁是属于哪个请求加的，在解锁的时候就可以有依据； 释放锁时要验证 value 值，防止误解锁； 通过 Lua 脚本来避免 Check And Set 模型的并发问题，因为在释放锁的时候因为涉及到多个Redis操作 （利用了eval命令执行Lua脚本的原子性）；  加锁代码分析</description>
+    </item>
+    
+    <item>
+      <title>1119-06面试题</title>
+      <link>https://dongr12138.github.io/post/1119/</link>
+      <pubDate>Wed, 20 Nov 2019 17:07:22 +0800</pubDate>
+      
+      <guid>https://dongr12138.github.io/post/1119/</guid>
+      <description>【06期】单例模式有几种写法？  “你知道茴香豆的‘茴’字有几种写法吗？”
+ 纠结单例模式有几种写法有用吗？有点用，面试中经常选择其中一种或几种写法作为话头，考查设计模式和coding style的同时，还很容易扩展到其他问题。
+这里讲解几种笔者常用的写法，但切忌生搬硬套，去记“茴香豆的写法”。编程最大的乐趣在于“know everything, control everything”。
+ JDK版本：oracle java 1.8.0_102
+ 大体可分为4类，下面分别介绍他们的基本形式、变种及特点。
+饱汉模式 饱汉是变种最多的单例模式。我们从饱汉出发，通过其变种逐渐了解实现单例模式时需要关注的问题。
+基础的饱汉 饱汉，即已经吃饱，不着急再吃，饿的时候再吃。所以他就先不初始化单例，等第一次使用的时候再初始化，即“懒加载”。
+// 饱汉 // UnThreadSafe public class Singleton1 { private static Singleton1 singleton = null; private Singleton1() { } public static Singleton1 getInstance() { if (singleton == null) { singleton = new Singleton1(); } return singleton; } }  饱汉模式的核心就是懒加载。好处是更启动速度快、节省资源，一直到实例被第一次访问，才需要初始化单例；小坏处是写起来麻烦，大坏处是线程不安全，if语句存在竞态条件。
+写起来麻烦不是大问题，可读性好啊。因此，单线程环境下，基础饱汉是笔者最喜欢的写法。但多线程环境下，基础饱汉就彻底不可用了。下面的几种变种都在试图解决基础饱汉线程不安全的问题。
+饱汉 - 变种 1 最粗暴的犯法是用synchronized关键字修饰getInstance()方法，这样能达到绝对的线程安全。
+// 饱汉 // ThreadSafe public class Singleton1_1 { private static Singleton1_1 singleton = null; private Singleton1_1() { } public synchronized static Singleton1_1 getInstance() { if (singleton == null) { singleton = new Singleton1_1(); } return singleton; } }  变种1的好处是写起来简单，且绝对线程安全；坏处是并发性能极差，事实上完全退化到了串行。单例只需要初始化一次，但就算初始化以后，synchronized的锁也无法避开，从而getInstance()完全变成了串行操作。性能不敏感的场景建议使用。</description>
+    </item>
+    
+    <item>
+      <title>1118-05面试题</title>
+      <link>https://dongr12138.github.io/post/1118/</link>
+      <pubDate>Wed, 20 Nov 2019 17:07:18 +0800</pubDate>
+      
+      <guid>https://dongr12138.github.io/post/1118/</guid>
+      <description>【05期】消息队列中，如何保证消息的顺序性？ 问：如何保证消息的顺序性？
+面试官心理分析 其实这个也是用 MQ 的时候必问的话题，第一看看你了不了解顺序这个事儿？第二看看你有没有办法保证消息是有顺序的？这是生产系统中常见的问题。
+面试题剖析 我举个例子，我们以前做过一个 mysql binlog 同步的系统，压力还是非常大的，日同步数据要达到上亿，就是说数据从一个 mysql 库原封不动地同步到另一个 mysql 库里面去（mysql -&amp;gt; mysql）。常见的一点在于说比如大数据 team，就需要同步一个 mysql 库过来，对公司的业务系统的数据做各种复杂的操作。
+你在 mysql 里增删改一条数据，对应出来了增删改 3 条 binlog 日志，接着这三条 binlog 发送到 MQ 里面，再消费出来依次执行，起码得保证人家是按照顺序来的吧？不然本来是：增加、修改、删除；你楞是换了顺序给执行成删除、修改、增加，不全错了么。
+本来这个数据同步过来，应该最后这个数据被删除了；结果你搞错了这个顺序，最后这个数据保留下来了，数据同步就出错了。
+先看看顺序会错乱的俩场景：
+ RabbitMQ：一个 queue，多个 consumer。比如，生产者向 RabbitMQ 里发送了三条数据，顺序依次是 data1/data2/data3，压入的是 RabbitMQ 的一个内存队列。有三个消费者分别从 MQ 中消费这三条数据中的一条，结果消费者2先执行完操作，把 data2 存入数据库，然后是 data1/data3。这不明显乱了。   Kafka：比如说我们建了一个 topic，有三个 partition。生产者在写的时候，其实可以指定一个 key，比如说我们指定了某个订单 id 作为 key，那么这个订单相关的数据，一定会被分发到同一个 partition 中去，而且这个 partition 中的数据一定是有顺序的。   消费者从 partition 中取出来数据的时候，也一定是有顺序的。到这里，顺序还是 ok 的，没有错乱。接着，我们在消费者里可能会搞多个线程来并发处理消息。因为如果消费者是单线程消费处理，而处理比较耗时的话，比如处理一条消息耗时几十 ms，那么 1 秒钟只能处理几十条消息，这吞吐量太低了。而多个线程并发跑的话，顺序可能就乱掉了。</description>
+    </item>
+    
+    <item>
+      <title>1117-04面试题（20岁生日 有你们在真好）</title>
       <link>https://dongr12138.github.io/post/1117/</link>
       <pubDate>Sun, 17 Nov 2019 17:48:11 +0800</pubDate>
       
